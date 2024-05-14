@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product_Image extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['product_id', 'image'];
+
+    function product() {
+        return $this->belongsTo((Product::class));
+    }
 }
