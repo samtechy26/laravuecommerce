@@ -2,33 +2,17 @@
 import { router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+// Getting data into the component
 const products = usePage().props.products
 const brands = usePage().props.brands
 const categories = usePage().props.categories
 
+// Setting conditional variables
 const isAddProduct = ref(false)
 const dialogVisible = ref(false)
 const editMode = ref(false)
 
-// handle upload of product images
-const productImages = ref([])
-const dialogImageUrl = ref('')
-
-
-const handleFileChange = (file) => {
-    productImages.value.push(file)
-}
-
-const handlePictureCardPreview = (file) => {
-    dialogImageUrl.value = file.url
-    dialogVisible.value = true
-}
-
-const handleRemove = (file) => {
-    return null
-}
-
-//product form data
+//Declairing product form data
 const id = ref('')
 const title = ref('')
 const price = ref('')
@@ -38,24 +22,14 @@ const product_images = ref([])
 const published = ref(true)
 const category_id = ref('')
 const brand_id = ref('')
-const inStock = ref('')
-
+const instock = ref('')
 
 
 // open add modal
 const openAddModal = () => {
     isAddProduct.value = true
     dialogVisible.value = true
-}
-
-// reset form data
-const resetFormData = () => {
-    id.value = ''
-    title.value = ''
-    price.value = ''
-    quantity.value = ''
-    description.value = ''
-    productImages.value = []
+    editMode.value = false
 }
 
 // add product method
@@ -67,6 +41,7 @@ const addProduct = async () => {
     formData.append('description', description.value)
     formData.append('brand_id', brand_id.value)
     formData.append('category_id', category_id.value)
+
 
     // append product images to form data
 
@@ -96,10 +71,115 @@ const addProduct = async () => {
     }
 }
 
+// handle upload of product images
+const productImages = ref([])
+const dialogImageUrl = ref('')
+
+
+const handleFileChange = (file) => {
+    productImages.value.push(file)
+}
+
+const handlePictureCardPreview = (file) => {
+    dialogImageUrl.value = file.url
+    dialogVisible.value = true
+}
+
+const handleRemove = (file) => {
+    return null
+}
+
+
+// reset form data
+const resetFormData = () => {
+    id.value = ''
+    title.value = ''
+    price.value = ''
+    quantity.value = ''
+    description.value = ''
+    productImages.value = []
+}
+
+//open edit form
 const openEditModal = (product) => {
     editMode.value = true
     isAddProduct.value = false
+    dialogVisible.value = true
 
+    // update data
+    id.value = product.id
+    title.value = product.title
+    price.value = product.price
+    quantity.value = product.quantity
+    description.value = product.description
+    brand_id.value = product.brand_id
+    category_id.value = product.category_id
+    product_images.value = product.product_images
+
+}
+
+// Update product Method
+
+const updateProduct = async () => {
+    const formData = new FormData()
+    formData.append('title', title.value)
+    formData.append('price', price.value)
+    formData.append('quantity', quantity.value)
+    formData.append('description', description.value)
+    formData.append('brand_id', brand_id.value)
+    formData.append('category_id', category_id.value)
+    formData.append('_method', 'PUT')
+
+
+    // append product images to form data
+
+    for (const image of productImages.value) {
+        formData.append('product_images[]', image.raw)
+    }
+
+    try {
+
+        await router.post(`/admin/products/update/${id.value}`, formData, {
+            onSuccess: (page) => {
+                dialogVisible.value = false
+                resetFormData()
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    title: page.props.flash.success
+                })
+            }
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// Delete Single Product Images
+
+const deleteImage = async (pimage, index) => {
+    try {
+
+        await router.delete(`/admin/products/image/${pimage.id}`, {
+            onSuccess: (page) => {
+                product_images.value.splice(index, 1)
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    title: page.props.flash.success
+                })
+            }
+        })
+
+
+    } catch (err) {
+
+    }
 }
 
 </script>
@@ -109,7 +189,7 @@ const openEditModal = (product) => {
             :before-close="handleClose">
 
 
-            <form @submit.prevent="addProduct" class="max-w-md mx-auto">
+            <form @submit.prevent="editMode ? updateProduct() : addProduct()" class="max-w-md mx-auto">
                 <div class="relative z-0 w-full mb-5 group">
                     <input v-model="title" type="text" name="floating_title" id="floating_title"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -176,11 +256,28 @@ const openEditModal = (product) => {
                     </div>
 
                 </div>
-                <button type="submit"
+                <!-- end -->
+
+                <!-- list of images for selected images -->
+                <div class="flex flex-nowrap mb-8">
+                    <div v-for="(pimage, index) in product_images" :key="pimage.id" class="relative">
+                        <img class="w-24 h-24 rounded" :src="`/${pimage.image}`" alt="">
+                        <span
+                            class="absolute top-0 left-8 transform -translate-y-1/2 w-3.5 h-3.5 bg-red-400 border-2 border-white dark:border-gray-800 rounded-full">
+                            <span @click="deleteImage(pimage, index)"
+                                class="text-white font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">X</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- end -->
+
+                <button type="submit" v-if="editMode"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update
+                    product</button>
+                <button type="submit" v-else
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
                     product</button>
             </form>
-
 
         </el-dialog>
         <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -325,15 +422,29 @@ const openEditModal = (product) => {
                                 <th scope="row"
                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{
                                         product.title }}</th>
-                                <td class="px-4 py-3">{{ product.category_id }}</td>
-                                <td class="px-4 py-3">{{ product.brand_id }}</td>
+                                <td class="px-4 py-3">{{ product.category.name }}</td>
+                                <td class="px-4 py-3">{{ product.brand.name }}</td>
                                 <td class="px-4 py-3">{{ product.quantity }}</td>
-                                <td class="px-4 py-3">{{ product.inStock }}</td>
-                                <td class="px-4 py-3">{{ product.published }}</td>
+                                <td class="px-4 py-3">
+                                    <span v-if="product.instock === 0"
+                                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Out
+                                        of stock</span>
+                                    <span v-else
+                                        class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">In
+                                        Stock</span>
+
+                                </td>
+                                <td class="px-4 py-3">
+                                    <button type="button" v-if="product.published === 0"
+                                        class="px-3 py-2 text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Unpublished</button>
+                                    <button type="button" v-else
+                                        class="px-3 py-2 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Published</button>
+                                </td>
+
                                 <td class="px-4 py-3">${{ product.price }}</td>
                                 <td class="px-4 py-3 flex items-center justify-end">
-                                    <button id="apple-imac-27-dropdown-button"
-                                        data-dropdown-toggle="apple-imac-27-dropdown"
+                                    <button :id="`${product.id}-dropdown-button`"
+                                        :data-dropdown-toggle="`${product.id}-dropdown`"
                                         class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                         type="button">
                                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
@@ -342,16 +453,16 @@ const openEditModal = (product) => {
                                                 d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                         </svg>
                                     </button>
-                                    <div id="apple-imac-27-dropdown"
+                                    <div :id="`${product.id}-dropdown`"
                                         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                            aria-labelledby="apple-imac-27-dropdown-button">
+                                            aria-labelledby="`${product.id}-dropdown-button`">
                                             <li>
                                                 <a href="#"
                                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                             </li>
                                             <li>
-                                                <a href="#"
+                                                <a @click="openEditModal(product)"
                                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                             </li>
                                         </ul>

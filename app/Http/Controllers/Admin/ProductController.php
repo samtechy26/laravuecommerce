@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public function index(Request $request) {
-        $products = Product::all();
+        $products = Product::with('category', 'brand', 'product_images')->get();
         $brands = Brand::all();
         $categories = Category::all();
         return Inertia::render('Admin/Products/Index', 
@@ -62,4 +62,53 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'product created successfully');
          
     }
+
+
+    public function update(Request $request, $id) {
+        $product = Product::findOrFail($id);
+        $product->title = $request->title;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->description = $request->description;
+        $product->category_id = $request->category_id;
+        $product->brand_id = $request->brand_id;
+        
+
+        //Check if product was uploaded with images
+        if($request->hasFile('product_images')) {
+
+            $productImages = $request->file('product_images');
+
+        // Loop through the images
+
+        foreach ($productImages as $image) {
+            // Generate a unique name for the image using timestamp and random string
+            $uniqueName = time(). '-' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+        }
+
+        // Store the image in the public folder with the unique name
+
+        $image->move('product_images', $uniqueName);
+
+        //Create a new product image record with the product_id and unique name
+
+        Product_Image::create([
+            'product_id' => $product->id,
+            'image' => 'product_images/' . $uniqueName
+        ]);
+
+
+        }
+
+        $product->update();
+        return redirect()->route('admin.products.index')->with('success', 'product updated successfully');
+    }
+
+    public function deleteImages($id) {
+        $image = Product_Image::where('id', $id)->delete();
+
+        return redirect()->route('admin.products.index')->with('success', 'Image deleted successfully');
+    }
+
+
 }
