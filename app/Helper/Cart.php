@@ -9,24 +9,30 @@ use Illuminate\Support\Arr;
 class Cart {
 
     public static function getCount() {
-        if ($user = auth()->user()) {
+        $user = auth()->user();
+        if ($user) {
             return CartItems:: whereUserId($user->id)->sum('quantity');
+        } else {
+            return array_reduce(self::getCookieCartItem(), fn ($carry, $item) => $carry + $item['quantity'], 0);
         }
     }
 
     public static function getCartItems() {
-        if ($user = auth()->user()) {
+        $user = auth()->user();
+        if ($user) {
             return CartItems::whereUserId($user->id)->get()->map(fn (CartItems $item) => ['product_id' => $item->product_id, 'quantity' => $item->quantity]);
+        } else {
+            return self::getCookieCartItem();
         }
         
     }
 
     public static function getCookieCartItem() {
-        return json_decode(request()->cookie('cart_items', '[]'));
+        return json_decode(request()->cookie('cart_item', '[]'), true);
     }
 
-    public static function setCookieCartItems ($item) {
-        Cookie::queue('cart_item', fn(int $carry, array $item)=> $carry + $item['quantity'], 0);
+    public static function setCookieCartItems (array $cartItems) {
+        Cookie::queue('cart_item', json_encode($cartItems), 60*24*30);
     }
 
     public static function saveCookieCartItems () {
@@ -74,20 +80,11 @@ class Cart {
 
     public static function getProductAndCartItems() {
 
-        $user = auth()->user();
-        if($user) {
             $cartItems = self::getCartItems();
             $ids = Arr::pluck($cartItems, 'product_id');
             $products = Product::whereIn('id', $ids)->with('product_images')->get();
             $cartItems = Arr::keyBy($cartItems, 'product_id');
             return [$products, $cartItems];
-        } else {
-            $cartItems = self::getCookieCartItem();
-            $ids = Arr::pluck($cartItems, 'product_id');
-            $products = Product::whereIn('id', $ids)->with('product_images')->get();
-            $cartItems = Arr::keyBy($cartItems, 'product_id');
-            return [$products, $cartItems];
-        }
-
+        
     }
 }

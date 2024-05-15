@@ -33,28 +33,50 @@ class CartController extends Controller
             }
         } else {
             $cartItems = Cart::getCookieCartItem();
+            
 
             $isProductExist = false;
+            
+            if ($cartItems) {
+                foreach($cartItems as $item) {
+                    if ($item['product_id'] === $product->id)
+                    {
+                        $item['quantity'] += $quantity;
+                        $isProductExist = true;
+                        break;
+                    }
+                    
 
-            foreach($cartItems as $item) {
-                if ($item['product_id'] == $product->id)
-                {
-                    $item['quantity'] += $quantity;
-                    $isProductExist = true;
-                    break;
                 }
+                if(!$isProductExist) {
+                    $cartItems[] = [
+                        'user_id' => null,
+                        'product_id' => $product->id,
+                        'quantity' => $quantity,
+                        'price' => $product->price
+                    ];                
+                }
+                Cart::setCookieCartItems($cartItems);
+            }
+            else {
+                $newCartItem = [
+                    [
+                        'user_id' => null,
+                            'product_id' => $product->id,
+                            'quantity' => $quantity,
+                            'price' => $product->price
+                    ]
+                ];
+
+                Cart::setCookieCartItems($newCartItem);
+
             }
 
-            if(!$isProductExist) {
-                $cartItem[] = [
-                    'user_id' => null,
-                    'product_id' => $product->id,
-                    'quantity' => $quantity,
-                    'price' => $product->price
-                ];                
-            }
+            
 
-            Cart::setCookieCartItems($cartItems);
+            
+
+            
         }
 
         return redirect()->back()->with('success', 'cart added successfully');
@@ -70,14 +92,18 @@ class CartController extends Controller
         else
         {
             $cartItems = Cart::getCookieCartItem();
-            foreach ($cartItems as $item) {
-                if($item['product_id'] == $product->id) {
-                    $item['quantity'] = $quantity;
-                    break;
+            if($cartItems) {
+                foreach ($cartItems as &$item) {
+                    if($item['product_id'] == $product->id) {
+                        $item['quantity'] = $quantity;
+                        break;
+                    }
                 }
+            } else {
+                Cart::setCookieCartItems($cartItems);
             }
-
-            Cart::setCookieCartItems($cartItems);
+            
+           
         }
 
         return redirect()->back();
