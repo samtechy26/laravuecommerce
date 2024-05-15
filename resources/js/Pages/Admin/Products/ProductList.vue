@@ -1,9 +1,14 @@
 <script setup>
 import { router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { Plus } from '@element-plus/icons-vue';
 
+
+defineProps({
+    products: Array
+})
 // Getting data into the component
-const products = usePage().props.products
+
 const brands = usePage().props.brands
 const categories = usePage().props.categories
 
@@ -180,6 +185,40 @@ const deleteImage = async (pimage, index) => {
     } catch (err) {
 
     }
+}
+
+// Delete Product
+const deleteProduct = (product, index) => {
+    Swal.fire({
+        title: 'Are you sure ?',
+        text: 'This action cannot be undone',
+        icon: 'warning',
+        showConfirmButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'no',
+        confirmButtonText: 'yes delete'
+    }).then(result => {
+        if (result.isConfirmed) {
+            try {
+
+                router.delete(`/admin/product/destroy/${product.id}`, {
+                    onSuccess: (page) => {
+                        this.delete(product, index)
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            title: page.props.flash.success
+                        })
+                    }
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    })
 }
 
 </script>
@@ -458,16 +497,12 @@ const deleteImage = async (pimage, index) => {
                                         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                             aria-labelledby="`${product.id}-dropdown-button`">
                                             <li>
-                                                <a href="#"
-                                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
-                                            </li>
-                                            <li>
                                                 <a @click="openEditModal(product)"
                                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                             </li>
                                         </ul>
                                         <div class="py-1">
-                                            <a href="#"
+                                            <a href="#" @click="deleteProduct(product, index)"
                                                 class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                         </div>
                                     </div>
