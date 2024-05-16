@@ -4,14 +4,43 @@ namespace App\Http\Controllers\User;
 
 use App\Helper\Cart;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartResource;
 use App\Models\CartItems;
 use App\Models\Product;
+use App\Models\User_Address;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
-    public function view() {
+    public function view(Request $request, Product $product) {
+        $user = $request->user;
+        if($user) {
+            $cartItems = CartItems::where('user_id', $user->id)->get();
+            $userAddress = User_Address::where('user_id', $user->id)->where('isMain', 1)->first();
 
+            if($cartItems->count() > 0) {
+                return Inertia::render('User/CartList', [
+                    'cartItems' => $cartItems,
+                    'userAddress' => $userAddress
+                ]);
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            $cartItems = Cart::getCookieCartItem();
+
+            if(count($cartItems) > 0) {
+                $cartItems = new CartResource(Cart::getProductAndCartItems());
+                return Inertia::render('User/CartList',[
+                    'cartItems' => $cartItems
+                ]);
+            } else {
+                return redirect()->back();
+            }
+        }
+        
+        
     }
 
     public function store(Request $request, Product $product) {
@@ -41,7 +70,7 @@ class CartController extends Controller
                 foreach($cartItems as $item) {
                     if ($item['product_id'] === $product->id)
                     {
-                        $item['quantity'] += $quantity;
+                        $item['quantity'] = $quantity;
                         $isProductExist = true;
                         break;
                     }
@@ -56,27 +85,21 @@ class CartController extends Controller
                         'price' => $product->price
                     ];                
                 }
-                Cart::setCookieCartItems($cartItems);
+               
             }
             else {
-                $newCartItem = [
-                    [
-                        'user_id' => null,
-                            'product_id' => $product->id,
-                            'quantity' => $quantity,
-                            'price' => $product->price
-                    ]
-                ];
+                $cartItems[] = [
+                    'user_id' => null,
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                    'price' => $product->price
+                ];        
 
-                Cart::setCookieCartItems($newCartItem);
-
+                
             }
 
-            
-
-            
-
-            
+            Cart::setCookieCartItems($cartItems);
+   
         }
 
         return redirect()->back()->with('success', 'cart added successfully');
@@ -100,6 +123,7 @@ class CartController extends Controller
                     }
                 }
             } else {
+                
                 Cart::setCookieCartItems($cartItems);
             }
             

@@ -11,9 +11,9 @@ class Cart {
     public static function getCount() {
         $user = auth()->user();
         if ($user) {
-            return CartItems:: whereUserId($user->id)->sum('quantity');
+            return CartItems:: whereUserId($user->id)->count();
         } else {
-            return array_reduce(self::getCookieCartItem(), fn ($carry, $item) => $carry + $item['quantity'], 0);
+            return array_reduce(self::getCookieCartItem(), fn ($carry) => $carry + 1, 0);
         }
     }
 
