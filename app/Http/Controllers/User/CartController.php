@@ -122,10 +122,10 @@ class CartController extends Controller
                         break;
                     }
                 }
-            } else {
+            } 
                 
-                Cart::setCookieCartItems($cartItems);
-            }
+            Cart::setCookieCartItems($cartItems);
+            
             
            
         }

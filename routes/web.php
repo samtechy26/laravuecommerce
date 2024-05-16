@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\ProductListController;
 use App\Http\Controllers\User\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Foundation\Application;
@@ -53,6 +54,11 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
     Route::delete('/products/image/{id}', [ProductController::class, 'deleteImages'])->name('admin.products.image.delete');
     Route::delete('/product/destroy/{id}', [ProductController::class, 'destroy'])->name('admin.products.delete');
+});
+
+// roue for product list and filter
+Route::prefix('products')->controller(ProductListController::class)->group(function() {
+    Route::get('/', 'index')->name('products.index');
 });
 
 
