@@ -49,8 +49,8 @@ class Product extends Model
             $q->whereIn('brand_id', request(('brands')));
         })->when(request('categories'), function (Builder $q) {
             $q->whereIn('category_id', request('categories'));
-        })->when(request('price'), function (Builder $q) {
-            $q->whereBetween('prices', [
+        })->when(request('prices'), function (Builder $q) {
+            $q->whereBetween('price', [
                 request('prices.from', 0),
                 request('prices.to', 1000000)
             ]);

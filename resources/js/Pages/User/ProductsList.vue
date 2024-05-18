@@ -21,6 +21,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { router, useForm } from '@inertiajs/vue3';
 import { data } from 'autoprefixer';
 
+// Sort Options
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: true },
     { name: 'Best Rating', href: '#', current: false },
@@ -28,65 +29,22 @@ const sortOptions = [
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
 ]
-const subCategories = [
-    { name: 'Totes', href: '#' },
-    { name: 'Backpacks', href: '#' },
-    { name: 'Travel Bags', href: '#' },
-    { name: 'Hip Bags', href: '#' },
-    { name: 'Laptop Sleeves', href: '#' },
-]
-const filters = [
-    {
-        id: 'color',
-        name: 'Color',
-        options: [
-            { value: 'white', label: 'White', checked: false },
-            { value: 'beige', label: 'Beige', checked: false },
-            { value: 'blue', label: 'Blue', checked: true },
-            { value: 'brown', label: 'Brown', checked: false },
-            { value: 'green', label: 'Green', checked: false },
-            { value: 'purple', label: 'Purple', checked: false },
-        ],
-    },
-    {
-        id: 'category',
-        name: 'Category',
-        options: [
-            { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-            { value: 'sale', label: 'Sale', checked: false },
-            { value: 'travel', label: 'Travel', checked: true },
-            { value: 'organization', label: 'Organization', checked: false },
-            { value: 'accessories', label: 'Accessories', checked: false },
-        ],
-    },
-    {
-        id: 'size',
-        name: 'Size',
-        options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
-        ],
-    },
-]
 
+
+// reactive values
 const mobileFiltersOpen = ref(false)
-
-// Filter brands and Categories
-
 const selectedBrands = ref([])
 const selectedCategories = ref([])
 
 
 // Watch for changes to the brandand categories value
-
 function updateFilteredProducts() {
     router.get('products', {
         brands: selectedBrands.value,
         categories: selectedCategories.value
+    }, {
+        preserveState: true,
+        replace: true
     })
 }
 
@@ -94,10 +52,16 @@ watch(selectedBrands, () => {
     updateFilteredProducts()
 })
 
+watch(selectedCategories, () => {
+    updateFilteredProducts()
+})
+
+// capture form data 
 const filterPrices = useForm({
     prices: [0, 100000]
 })
 
+// function to filter prices
 const priceFilter = () => {
     filterPrices.transform((data) => ({
         ...data,
@@ -111,12 +75,13 @@ const priceFilter = () => {
     })
 }
 
-
+// capture data into the component
 const props = defineProps({
     products: Array,
     brands: Array,
     categories: Array
 })
+
 </script>
 
 <template>
@@ -125,6 +90,7 @@ const props = defineProps({
             <div>
                 <!-- Mobile filter dialog -->
                 <TransitionRoot as="template" :show="mobileFiltersOpen">
+                    <!-- open mobile menu dialog -->
                     <Dialog class="relative z-40 lg:hidden" @close="mobileFiltersOpen = false">
                         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                             enter-from="opacity-0" enter-to="opacity-100"
@@ -152,8 +118,6 @@ const props = defineProps({
 
                                     <!-- Filters -->
                                     <form class="mt-4 border-t border-gray-200">
-
-
                                         <Disclosure as="div" class="border-t border-gray-200 px-4 py-6"
                                             v-slot="{ open }">
                                             <h3 class="-mx-2 -my-3 flow-root">
@@ -181,12 +145,14 @@ const props = defineProps({
                                             </DisclosurePanel>
                                         </Disclosure>
                                     </form>
+
                                 </DialogPanel>
                             </TransitionChild>
                         </div>
                     </Dialog>
                 </TransitionRoot>
 
+                <!-- Desktop filters -->
                 <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
                         <h1 class="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
@@ -240,8 +206,10 @@ const props = defineProps({
                         <h2 id="products-heading" class="sr-only">Products</h2>
 
                         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+
                             <!-- Filters -->
                             <form class="hidden lg:block">
+
                                 <!-- price filter -->
                                 <div class="flex items-center justify-between space-x-3">
                                     <div class="base-1/3">
@@ -300,6 +268,7 @@ const props = defineProps({
                                 <!-- End Brand Filter -->
 
                                 <!-- Category Filter  -->
+
                                 <Disclosure as="div" class="border-b border-gray-200 py-6" v-slot="{ open }">
                                     <h3 class="-my-3 flow-root">
                                         <DisclosureButton
@@ -324,13 +293,20 @@ const props = defineProps({
                                         </div>
                                     </DisclosurePanel>
                                 </Disclosure>
+
                                 <!-- End Category Filter  -->
+
                             </form>
 
                             <!-- Product grid -->
-                            <div class="lg:col-span-3">
-                                <Products :products="props.products.data" />
+                            <div class="lg:col-span-3  ">
+                                <!-- main product content -->
+                                <div class="grid grid-cols-1 gap-x-6 lg:grid-cols-4">
+                                    <Products :products="props.products.data" />
+                                </div>
+
                             </div>
+
                         </div>
                     </section>
                 </main>

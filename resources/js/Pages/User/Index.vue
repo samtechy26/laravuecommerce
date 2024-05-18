@@ -8,21 +8,7 @@ defineProps({
     products: Array
 })
 
-const addToCart = (product) => {
-    router.post(route('cart.store', product), {
-        onSuccess: page => {
-            if (page.props.flash.success) {
-                Swal.fire({
-                    toast: true,
-                    icon: 'success',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    title: page.props.flash.success
-                })
-            }
-        }
-    })
-}
+
 
 </script>
 

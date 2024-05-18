@@ -9,15 +9,17 @@ use App\Models\CartItems;
 use App\Models\Product;
 use App\Models\User_Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CartController extends Controller
 {
     public function view(Request $request, Product $product) {
-        $user = $request->user;
+        $user = Auth::user();
         if($user) {
             $cartItems = CartItems::where('user_id', $user->id)->get();
-            $userAddress = User_Address::where('user_id', $user->id)->where('isMain', 1)->first();
+            // $userAddress = User_Address::where('user_id', $user->id)->where('isMain', 1)->first();
+            $userAddress = User_Address::where(['user_id' => $user->id, 'isMain' => 1])->first();
 
             if($cartItems->count() > 0) {
                 return Inertia::render('User/CartList', [
