@@ -16,4 +16,8 @@ class UserController extends Controller
             'products' => $products
         ]);
     }
+
+    public function contact() {
+        return Inertia::render('User/Contact');
+    }
 }

@@ -100,12 +100,12 @@ const cart = computed(() => usePage().props.cart)
 
             <div class="flex items-center justify-between flex-grow md:pl-12 py-5">
                 <div class="flex items-center space-x-6 capitalize">
-                    <a href="index.html" class="text-gray-200 hover:text-white transition">Home</a>
-                    <a href="pages/shop.html" class="text-gray-200 hover:text-white transition">Shop</a>
+                    <Link :href="route('user.home')" class="text-gray-200 hover:text-white transition">Home</Link>
+                    <Link :href="route('products.index')" class="text-gray-200 hover:text-white transition">Shop</Link>
                     <a href="#" class="text-gray-200 hover:text-white transition">About us</a>
-                    <a href="#" class="text-gray-200 hover:text-white transition">Contact us</a>
+                    <Link :href="route('contact')" class="text-gray-200 hover:text-white transition">Contact us</Link>
                 </div>
-                <a href="pages/login.html" class="text-gray-200 hover:text-white transition">Login</a>
+                <Link :href="route('login')" class="text-gray-200 hover:text-white transition">Login / Register</Link>
             </div>
         </div>
     </nav>

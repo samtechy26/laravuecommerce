@@ -18,11 +18,13 @@ return new class extends Migration
             $table->id();
             $table->string('title', 200);
             $table->string('slug', 400);
+            $table->string('sku', 400);
             $table->integer('quantity');
             $table->longText('description')->nullable();
-            $table->boolean('published')->default(0);
-            $table->boolean('instock')->default(0);
+            $table->boolean('published')->default(1);
+            $table->boolean('instock')->default(1);
             $table->decimal('price', 10, 2);
+            $table->decimal('weight', 10, 2)->nullable();
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->foreignId('brand_id')->constrained('brands')->nullable();

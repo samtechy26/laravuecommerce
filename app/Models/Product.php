@@ -14,7 +14,7 @@ class Product extends Model
     use HasSlug;
 
     protected $fillable = [
-        "title","slug","description","published","inStock","price","created_by","updated_by","deleted_by"
+        "title","slug","description", "sku", "published","inStock","price", "weight", "created_by","updated_by","deleted_by"
     ];
 
     /**
@@ -30,6 +30,18 @@ class Product extends Model
     public function product_images() {
         return $this->hasMany(Product_Image::class);
     }
+
+   public function sizes() {
+    return $this->belongsToMany(Size::class)->using(ProductSize::class);
+   }
+
+   public function colors() {
+    return $this->belongsToMany(Color::class)->using(ProductColor::class);
+   }
+
+   public function materials() {
+    return $this->belongsToMany(Material::class)->using(ProductMaterial::class);
+   }
 
     public function category() {
         return $this->belongsTo(Category::class);

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\ProductDetailController;
 use App\Http\Controllers\User\ProductListController;
 use App\Http\Controllers\User\UserController;
 use GuzzleHttp\Middleware;
@@ -16,6 +17,7 @@ use Inertia\Inertia;
 
 
 Route::get('/', [UserController::class, 'index'])->name('user.home');
+Route::get('/contact', [UserController::class, 'contact'])->name('contact');
 
 
 // User Routes
@@ -67,6 +69,8 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
 Route::prefix('products')->controller(ProductListController::class)->group(function() {
     Route::get('/', 'index')->name('products.index');
 });
+
+Route::get('/product', [ProductDetailController::class, 'index'])->name('product.single');
 
 
 
