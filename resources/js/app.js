@@ -1,5 +1,5 @@
-// import "./bootstrap";
-// import "../css/app.css";
+import "./bootstrap";
+import "../css/app.css";
 import "../css/main.css";
 
 import { createApp, h } from "vue";

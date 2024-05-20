@@ -41,24 +41,24 @@ const submit = () => {
                 <p class="text-gray-600 mb-6 text-sm">
                     welcome back customer
                 </p>
-                <form action="#" method="post" autocomplete="off">
+                <form @submit.prevent="submit">
                     <div class="space-y-2">
                         <div>
                             <label for="email" class="text-gray-600 mb-2 block">Email address</label>
-                            <input type="email" name="email" id="email"
+                            <input type="email" name="email" id="email" v-model="form.email"
                                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                 placeholder="youremail.@domain.com">
                         </div>
                         <div>
                             <label for="password" class="text-gray-600 mb-2 block">Password</label>
-                            <input type="password" name="password" id="password"
+                            <input type="password" name="password" id="password" v-model="form.password"
                                 class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                                 placeholder="*******">
                         </div>
                     </div>
                     <div class="flex items-center justify-between mt-6">
                         <div class="flex items-center">
-                            <input type="checkbox" name="remember" id="remember"
+                            <input type="checkbox" name="remember" id="remember" v-model="form.remember"
                                 class="text-primary focus:ring-0 rounded-sm cursor-pointer">
                             <label for="remember" class="text-gray-600 ml-3 cursor-pointer">Remember me</label>
                         </div>
