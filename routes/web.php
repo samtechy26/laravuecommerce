@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
@@ -86,6 +87,12 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     Route::post('/sizes/store', [SizeController::class, 'store'])->name('admin.sizes.store');
     Route::patch('/sizes/update/{id}', [SizeController::class, 'update'])->name(('admin.sizes.update'));
     Route::delete('/sizes/destroy/{id}', [SizeController::class, 'destroy'])->name('admin.sizes.delete');
+
+    //categories route
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::post('/categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::patch('/categories/update/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/categories/destroy/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 });
 
