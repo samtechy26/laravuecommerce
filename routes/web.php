@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\ProfileController;
@@ -79,6 +80,12 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     Route::post('/colors/store', [ColorController::class, 'store'])->name('admin.colors.store');
     Route::patch('/colors/update/{id}', [ColorController::class, 'update'])->name(('admin.colors.update'));
     Route::delete('/colors/destroy/{id}', [ColorController::class, 'destroy'])->name('admin.colors.delete');
+
+    //sizes route
+    Route::get('/sizes', [SizeController::class, 'index'])->name('admin.sizes.index');
+    Route::post('/sizes/store', [SizeController::class, 'store'])->name('admin.sizes.store');
+    Route::patch('/sizes/update/{id}', [SizeController::class, 'update'])->name(('admin.sizes.update'));
+    Route::delete('/sizes/destroy/{id}', [SizeController::class, 'destroy'])->name('admin.sizes.delete');
 
 });
 

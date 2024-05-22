@@ -5,40 +5,40 @@ import AdminLayout from '../Components/AdminLayout.vue';
 
 
 defineProps({
-    colors: Array
+    sizes: Array
 })
 // Setting conditional variables
 
-const isAddingColor = ref(false)
+const IsAddingSize = ref(false)
 const dialogVisible = ref(false)
 const editMode = ref(false)
 
-const colorId = ref(null)
-const colorName = ref(null)
+const sizeId = ref(null)
+const sizeName = ref(null)
 
 const resetData = () => {
-    colorId.value = null
-    colorName.value = null
+    sizeId.value = null
+    sizeName.value = null
 }
 
 const openAddModal = () => {
-    isAddingColor.value = true
+    IsAddingSize.value = true
     editMode.value = false
     dialogVisible.value = true
     resetData()
 }
 
-const handleAddColor = async () => {
+const handleAddSize = async () => {
     const data = new FormData()
-    if (colorName.value !== null) {
-        data.append('name', colorName.value)
+    if (sizeName.value !== null) {
+        data.append('name', sizeName.value)
         try {
-            await router.post(route('admin.colors.store'), data, {
+            await router.post(route('admin.sizes.store'), data, {
                 onSuccess: page => {
                     Swal.fire({
                         toast: true,
                         icon: 'success',
-                        text: 'color added successfully',
+                        text: 'brand added successfully',
                         position: 'top-end',
                         showConfirmButton: false,
                         title: page.props.flash.sucess
@@ -57,25 +57,25 @@ const handleAddColor = async () => {
     }
 }
 
-const openEditModal = (brand) => {
+const openEditModal = (size) => {
     editMode.value = true
-    isAddingColor.value = false
+    IsAddingSize.value = false
     dialogVisible.value = true
 
     // update data
-    colorId.value = brand.id
-    colorName.value = brand.name
+    sizeId.value = size.id
+    sizeName.value = size.name
 
 }
 
-const handleUpdateColor = async () => {
+const handleUpdateSize = async () => {
     const data = new FormData()
-    data.append('id', colorId.value)
-    data.append('name', colorName.value)
+    data.append('id', sizeId.value)
+    data.append('name', sizeName.value)
     data.append('_method', 'PATCH')
 
     try {
-        router.post(route('admin.colors.update', { id: colorId.value }), data, {
+        router.post(route('admin.sizes.update', { id: sizeId.value }), data, {
             onSuccess: (page) => {
                 dialogVisible.value = false
                 resetData()
@@ -95,7 +95,7 @@ const handleUpdateColor = async () => {
 
 }
 
-const handleDeleteColor = async (brand, index) => {
+const handleDeleteSize = async (size, index) => {
     Swal.fire({
         title: 'Are you sure ?',
         text: 'This action cannot be undone',
@@ -109,9 +109,9 @@ const handleDeleteColor = async (brand, index) => {
         if (result.isConfirmed) {
             try {
 
-                router.delete(route('admin.colors.delete', { id: brand.id }), {
+                router.delete(route('admin.sizes.delete', { id: size.id }), {
                     onSuccess: (page) => {
-                        this.delete(brand, index)
+                        this.delete(size, index)
                         Swal.fire({
                             toast: true,
                             icon: 'success',
@@ -132,21 +132,21 @@ const handleDeleteColor = async (brand, index) => {
 <template>
     <AdminLayout>
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-            <el-dialog v-model="dialogVisible" :title="editMode ? 'Edit Color' : 'Add Color'" width="500"
+            <el-dialog v-model="dialogVisible" :title="editMode ? 'Edit Size' : 'Add Size'" width="500"
                 :before-close="handleClose">
-                <form @submit.prevent="editMode ? handleUpdateColor() : handleAddColor()">
+                <form @submit.prevent="editMode ? handleUpdateSize() : handleAddSize()">
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <div class="sm:col-span-2">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size
                                 Name</label>
-                            <input type="text" name="name" id="name" v-model="colorName"
+                            <input type="text" name="name" id="name" v-model="sizeName"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Type color name" required="">
+                                placeholder="Type size name" required="">
                         </div>
                     </div>
                     <button type="submit"
                         class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-black  rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-primary-900 hover:bg-primary-600">
-                        {{ editMode ? 'Update Color' : 'Add Color' }}
+                        {{ editMode ? 'Update Size' : 'Add Size' }}
                     </button>
                 </form>
             </el-dialog>
@@ -154,13 +154,10 @@ const handleDeleteColor = async (brand, index) => {
                 class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                 <div class="flex items-center flex-1 space-x-4">
                     <h5>
-                        <span class="text-gray-500">All Colors:</span>
+                        <span class="text-gray-500">All Sizes:</span>
                         <span class="dark:text-white">12</span>
                     </h5>
-                    <h5>
-                        <span class="text-gray-500">Total sales:</span>
-                        <span class="dark:text-white">$88.4k</span>
-                    </h5>
+
                 </div>
                 <div
                     class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -171,7 +168,7 @@ const handleDeleteColor = async (brand, index) => {
                             <path clip-rule="evenodd" fill-rule="evenodd"
                                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                         </svg>
-                        Add new color
+                        Add new Size
                     </button>
                     <button type="button"
                         class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
@@ -205,7 +202,7 @@ const handleDeleteColor = async (brand, index) => {
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Color name
+                                Size name
                             </th>
                             <th scope="2col" class="px-6 py-3 col-span-2">
                                 Action
@@ -213,7 +210,7 @@ const handleDeleteColor = async (brand, index) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="color in colors" :key="color.id"
+                        <tr v-for="size in sizes" :key="size.id"
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
@@ -224,13 +221,13 @@ const handleDeleteColor = async (brand, index) => {
                             </td>
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ color.name }}
+                                {{ size.name }}
                             </th>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <a @click="openEditModal(color)"
+                                    <a @click="openEditModal(size)"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    <a @click="handleDeleteColor(color, index)"
+                                    <a @click="handleDeleteSize(size, index)"
                                         class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
                                 </div>
 
