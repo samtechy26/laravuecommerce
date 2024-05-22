@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
@@ -71,6 +72,14 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     Route::post('/brands/store', [BrandController::class, 'store'])->name('admin.brands.store');
     Route::patch('/brands/update/{id}', [BrandController::class, 'update'])->name(('admin.brands.update'));
     Route::delete('/brands/destroy/{id}', [BrandController::class, 'destroy'])->name('admin.brands.delete');
+
+
+    //colors route
+    Route::get('/colors', [ColorController::class, 'index'])->name('admin.colors.index');
+    Route::post('/colors/store', [ColorController::class, 'store'])->name('admin.colors.store');
+    Route::patch('/colors/update/{id}', [ColorController::class, 'update'])->name(('admin.colors.update'));
+    Route::delete('/colors/destroy/{id}', [ColorController::class, 'destroy'])->name('admin.colors.delete');
+
 });
 
 // roue for product list and filter
