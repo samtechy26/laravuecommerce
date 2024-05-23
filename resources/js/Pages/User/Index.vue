@@ -10,7 +10,8 @@ import Advert from './Components/Advert.vue';
 import BestProducts from './Components/BestProducts.vue';
 
 defineProps({
-    products: Array
+    products: Array,
+    categories: Array
 })
 
 
@@ -21,7 +22,7 @@ defineProps({
     <UserLayout>
         <Hero />
         <Features />
-        <Categories />
+        <Categories :categories="categories" />
         <NewArrivals />
         <Advert />
         <BestProducts />

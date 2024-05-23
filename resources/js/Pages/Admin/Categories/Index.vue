@@ -86,7 +86,7 @@ const addCategory = function () {
                     icon: 'success',
                     position: 'top-end',
                     showConfirmButton: false,
-                    title: page.props.flash.sucess
+                    title: page.props.flash.success
                 })
 
                 dialogVisible.value = false

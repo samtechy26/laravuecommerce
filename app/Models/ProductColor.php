@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class ProductColor extends Pivot
 {
     
+    
     use HasFactory;
 
 
