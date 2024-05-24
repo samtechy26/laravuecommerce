@@ -15,7 +15,7 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
-    public function product() {
+    public function products() {
         return $this->hasMany(Product::class);
     }
 
@@ -24,5 +24,10 @@ class Category extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
+    }
+
+    public function getProductCountAttribute()
+    {
+        return $this->products()->count();
     }
 }

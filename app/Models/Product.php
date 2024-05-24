@@ -66,6 +66,29 @@ class Product extends Model
                 request('prices.from', 0),
                 request('prices.to', 1000000)
             ]);
+        })->when(request('color'), function (Builder $q) {
+            $q->whereHas('colors', function (Builder $q) {
+                $q->where('colors.id', request('color'));
+            });
+        })->when(request('size'), function (Builder $q) {
+            $q->whereHas('sizes', function (Builder $q) {
+                $q->where('sizes.id', request('size'));
+            });
+        });
+
+
+        // Sorting by price
+        $builder->when(request('sort_by') === 'price_asc', function (Builder $q) {
+            $q->orderBy('price', 'asc');
+        })->when(request('sort_by') === 'price_desc', function (Builder $q) {
+            $q->orderBy('price', 'desc');
+        });
+
+        // Sorting by date created
+        $builder->when(request('sort_by') === 'date_asc', function (Builder $q) {
+            $q->orderBy('created_at', 'asc');
+        })->when(request('sort_by') === 'date_desc', function (Builder $q) {
+            $q->orderBy('created_at', 'desc');
         });
     }
 }

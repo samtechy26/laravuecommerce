@@ -18,8 +18,8 @@ class ProductListController extends Controller
         $products = Product::with('brand', 'category', 'product_images');
         $filteredProducts = $products->filtered()->paginate(9)->withQueryString();
 
-        $categories = Category::get();
-        $brands = Brand::get();
+        $categories = Category::with('products')->get();
+        $brands = Brand::with('products')->get();
         $colors = Color::get();
         $sizes = Size::get();
 
