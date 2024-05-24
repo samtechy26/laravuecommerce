@@ -16,8 +16,6 @@ onMounted(() => {
 
     <Header />
 
-
-
     <!-- main section begin -->
     <slot />
     <!-- main section end -->

@@ -6,6 +6,7 @@ const canLogin = usePage().props.canLogin;
 const canRegister = usePage().props.canRegister;
 const auth = usePage().props.auth;
 const cart = computed(() => usePage().props.cart)
+const carts = computed(() => pageProps.cart.data.items);
 
 </script>
 
@@ -43,15 +44,16 @@ const cart = computed(() => usePage().props.cart)
                         class="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
                         8</div>
                 </a>
-                <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
-                    <div class="text-2xl">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                    </div>
-                    <div class="text-xs leading-3">Cart</div>
-                    <div
-                        class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                        2</div>
-                </a>
+                <Link :href="route('cart.view')"
+                    class="text-center text-gray-700 hover:text-primary transition relative">
+                <div class="text-2xl">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="text-xs leading-3">Cart</div>
+                <div
+                    class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                    {{ cart.data.count }}</div>
+                </Link>
                 <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
                     <div class="text-2xl">
                         <i class="fa-regular fa-user"></i>
@@ -77,27 +79,27 @@ const cart = computed(() => usePage().props.cart)
                 <div
                     class="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/sofa.svg" alt="sofa" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/sofa.svg" alt="sofa" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">Sofa</span>
                     </a>
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/terrace.svg" alt="terrace" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/terrace.svg" alt="terrace" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">Terarce</span>
                     </a>
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/bed.svg" alt="bed" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/bed.svg" alt="bed" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">Bed</span>
                     </a>
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/office.svg" alt="office" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/office.svg" alt="office" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">office</span>
                     </a>
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/outdoor-cafe.svg" alt="outdoor" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/outdoor-cafe.svg" alt="outdoor" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">Outdoor</span>
                     </a>
                     <a href="#" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
-                        <img src="images/icons/bed-2.svg" alt="Mattress" class="w-5 h-5 object-contain">
+                        <img src="/images/icons/bed-2.svg" alt="Mattress" class="w-5 h-5 object-contain">
                         <span class="ml-6 text-gray-600 text-sm">Mattress</span>
                     </a>
                 </div>

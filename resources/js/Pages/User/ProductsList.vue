@@ -31,6 +31,23 @@ const selectedColors = ref(null)
 const selectedSizes = ref(null)
 const sort_by = ref('')
 
+function addToCart(product) {
+    router.post(route('cart.store', { product: product }), {
+        onSuccess: (page) => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                title: page.props.flash.success
+            })
+        }
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
+    })
+}
 
 // Watch for changes to the brandand categories value
 function updateFilteredProducts() {
@@ -171,7 +188,7 @@ const props = defineProps({
                                     :value="brand.id" class="text-primary focus:ring-0 rounded-sm cursor-pointer">
                                 <label :for="`brand-${brand.id}`" class="text-gray-600 ml-3 cusror-pointer">{{
                                     brand.name
-                                    }}</label>
+                                }}</label>
                                 <div class="ml-auto text-gray-600 text-sm">{{ brand.products.length }}</div>
                             </div>
 
@@ -365,8 +382,8 @@ const props = defineProps({
                                 <div class="text-xs text-gray-500 ml-3">(150)</div>
                             </div>
                         </div>
-                        <a href="#"
-                            class="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">Add
+                        <a @click="addToCart(product)"
+                            class="block w-full py-1 text-center cursor-pointer text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">Add
                             to cart</a>
                     </div>
                 </div>

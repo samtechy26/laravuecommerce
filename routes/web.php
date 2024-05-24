@@ -96,7 +96,7 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
 
 });
 
-// roue for product list and filter
+// route for product list and filter
 Route::prefix('products')->controller(ProductListController::class)->group(function() {
     Route::get('/', 'index')->name('products.index');
 });
