@@ -6,7 +6,7 @@ const canLogin = usePage().props.canLogin;
 const canRegister = usePage().props.canRegister;
 const auth = usePage().props.auth;
 const cart = computed(() => usePage().props.cart)
-const carts = computed(() => pageProps.cart.data.items);
+
 
 </script>
 

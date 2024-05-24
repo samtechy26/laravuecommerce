@@ -16,9 +16,10 @@ class CartController extends Controller
 {
     public function view(Request $request, Product $product) {
         $user = Auth::user();
+
         if($user) {
             $cartItems = CartItems::where('user_id', $user->id)->get();
-            // $userAddress = User_Address::where('user_id', $user->id)->where('isMain', 1)->first();
+            
             $userAddress = User_Address::where(['user_id' => $user->id, 'isMain' => 1])->first();
 
             if($cartItems->count() > 0) {
@@ -27,7 +28,7 @@ class CartController extends Controller
                     'userAddress' => $userAddress
                 ]);
             } else {
-                return redirect()->back();
+                return redirect()->route('products.index')->with('error', 'cart is empty, add some items');
             }
         } else {
             $cartItems = Cart::getCookieCartItem();
@@ -38,7 +39,7 @@ class CartController extends Controller
                     'cartItems' => $cartItems
                 ]);
             } else {
-                return redirect()->back();
+                return redirect()->route('products.index')->with('error', 'cart is empty, add some items');
             }
         }
         
@@ -156,7 +157,7 @@ class CartController extends Controller
             }
             Cart::setCookieCartItems($cartItems);
             
-            if(CartItems::count() <= 0) {
+            if(count($cartItems) <= 0) {
                 return redirect()->route('user.home')->with('info', 'your cart is empty');
             } else {
                 return back()->with('success', 'item removed successfully');

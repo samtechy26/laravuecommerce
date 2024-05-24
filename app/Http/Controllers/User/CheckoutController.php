@@ -63,10 +63,6 @@ class CheckoutController extends Controller
         $newAddress = $request->address;
 
         if($newAddress['address1'] != null) {
-            // $address = User_Address::where(['user_id' => $user, 'isMain'=> 1])->count();
-            // if ($address > 0) {
-            //     $address = User_Address::where(['user_id' => $user, 'isMain'=> 1])->update(['isMain' => 0]);
-            // }
 
             $address = new User_Address();
             $address->address1 = $newAddress['address1'];
@@ -76,6 +72,7 @@ class CheckoutController extends Controller
             $address->city = $newAddress['city'];
             $address->country_code = $newAddress['country_code'];
             $address->type = $newAddress['type'];
+            $address->isMain = 1;
             $address->user_id = Auth::user()->id;
             $address->save();
         }
@@ -85,14 +82,14 @@ class CheckoutController extends Controller
         if ($mainAddress) {
             $order = new Order();
             $order->status = 'unpaid';
-            $order->user_address_id = $mainAddress->id;
+            $order->user__address_id = $mainAddress->id;
             $order->total_price = $request->total;
             $order->session_id = $checkout_session->id;
             $order->created_by = $user->id;
             $order->updated_by = $user->id;
 
             // If a main address with isMain = 1 exist, set it's id as customer_address_id
-            $order->user_address_id = $mainAddress->id;
+            $order->user__address_id = $mainAddress->id;
             $order->save();
 
             $cartItems = CartItems::where(['user_id' => $user->id])->get();

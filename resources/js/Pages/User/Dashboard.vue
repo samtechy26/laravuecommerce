@@ -1,5 +1,10 @@
 <script setup>
+import { Link, router, usePage } from '@inertiajs/vue3';
 import UserLayout from './Layouts/UserLayout.vue';
+
+const logout = () => {
+    router.post(route('admin.logout'))
+}
 
 </script>
 
@@ -92,8 +97,8 @@ import UserLayout from './Layouts/UserLayout.vue';
                     </div>
 
                     <div class="space-y-1 pl-8 pt-4">
-                        <a href="#" class="relative hover:text-primary block font-medium capitalize transition">
-                            <span class="absolute -left-8 top-0 text-base">
+                        <a @click="logout" class="relative hover:text-primary block font-medium capitalize transition">
+                            <span class=" cursor-pointerabsolute -left-8 top-0 text-base">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                             </span>
                             Logout
