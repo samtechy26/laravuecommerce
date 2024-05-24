@@ -7,6 +7,8 @@ use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Color;
+use App\Models\Size;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,11 +20,15 @@ class ProductListController extends Controller
 
         $categories = Category::get();
         $brands = Brand::get();
+        $colors = Color::get();
+        $sizes = Size::get();
 
         return Inertia::render('User/ProductsList', [
             'products'=> ProductResource::collection(($filteredProducts)),
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'colors' => $colors,
+            'sizes' => $sizes
         ]);
     }
 

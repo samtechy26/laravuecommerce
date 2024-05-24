@@ -11,7 +11,8 @@ import BestProducts from './Components/BestProducts.vue';
 
 defineProps({
     products: Array,
-    categories: Array
+    categories: Array,
+    top_products: Array
 })
 
 
@@ -23,7 +24,7 @@ defineProps({
         <Hero />
         <Features />
         <Categories :categories="categories" />
-        <NewArrivals />
+        <NewArrivals :top_products="top_products" />
         <Advert />
         <BestProducts />
     </UserLayout>
