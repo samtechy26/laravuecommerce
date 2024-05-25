@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Helper\Cart;
+use App\Helper\Wish;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\WishListResource;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -38,6 +40,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'cart' => new CartResource(Cart::getProductAndCartItems()),
+            'wishlist' => new WishListResource(Wish::getProductAndWishes()),
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),

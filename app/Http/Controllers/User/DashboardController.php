@@ -11,6 +11,6 @@ class DashboardController extends Controller
 {
     public function index () {
         $order = Order::with('order_items')->get();
-        return Inertia::render('User/Dashboard', ['orders' => $order]);
+        return Inertia::render('User/Dashboard/Dashboard', ['orders' => $order]);
     }
 }

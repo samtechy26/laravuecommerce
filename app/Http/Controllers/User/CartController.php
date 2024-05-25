@@ -18,7 +18,9 @@ class CartController extends Controller
         $user = Auth::user();
 
         if($user) {
+           
             $cartItems = CartItems::where('user_id', $user->id)->get();
+            
             
             $userAddress = User_Address::where(['user_id' => $user->id, 'isMain' => 1])->first();
 

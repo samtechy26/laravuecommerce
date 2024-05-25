@@ -70,6 +70,14 @@ class Cart {
                 'product_id' => $cartItem['product_id'],
                 'quantity' => $cartItem['quantity']
             ]);
+
+            if(!$existingCartItem) {
+                $newCartItems[] = [
+                    'user_id' => $request->user()->id,
+                'product_id' => $cartItem['product_id'],
+                'quantity' => $cartItem['quantity'],
+                ];
+            }
         }
 
         if(!empty($newCartItems)) {

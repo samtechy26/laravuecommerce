@@ -14,6 +14,7 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ProductDetailController;
 use App\Http\Controllers\User\ProductListController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\WishListController;
 use GuzzleHttp\Middleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,13 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::post('store/{product}', 'store')->name('cart.store');
     Route::patch('update/{product}', 'update')->name('cart.update');
     Route::delete('delete/{product}', 'delete')->name('cart.delete');
+});
+
+//add to wishlist
+Route::prefix('wishlist')->controller(WishListController::class)->group(function () {
+    Route::get('view', 'view')->name('wishlist.view');
+    Route::post('store/{product}', 'store')->name('wishlist.store');
+    Route::delete('delete/{product}', 'delete')->name('wishlist.delete');
 });
 
 // Admin Routes

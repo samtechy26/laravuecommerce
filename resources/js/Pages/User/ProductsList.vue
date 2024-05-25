@@ -49,6 +49,26 @@ function addToCart(product) {
     })
 }
 
+// add to wishlist 
+
+function addToWishList(product) {
+    router.post(route('wishlist.store', { product: product }), {
+        onSuccess: (page) => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                title: page.props.flash.success
+            })
+        }
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
+    })
+}
+
 // Watch for changes to the brandand categories value
 function updateFilteredProducts() {
     router.get('products', {
@@ -188,7 +208,7 @@ const props = defineProps({
                                     :value="brand.id" class="text-primary focus:ring-0 rounded-sm cursor-pointer">
                                 <label :for="`brand-${brand.id}`" class="text-gray-600 ml-3 cusror-pointer">{{
                                     brand.name
-                                }}</label>
+                                    }}</label>
                                 <div class="ml-auto text-gray-600 text-sm">{{ brand.products.length }}</div>
                             </div>
 
@@ -355,11 +375,11 @@ const props = defineProps({
                                     title="view product">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 </Link>
-                                <Link :href="route('product.single', { id: product.id })"
-                                    class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                <a @click="addToWishList(product)"
+                                    class=" cursor-pointer text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                                     title="add to wishlist">
-                                <i class="fa-solid fa-heart"></i>
-                                </Link>
+                                    <i class="fa-solid fa-heart"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="pt-4 pb-3 px-4">
