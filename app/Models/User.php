@@ -48,4 +48,9 @@ class User extends Authenticatable
     public function user_address () {
         return $this->belongsTo(User_Address::class);
     }
+
+    public function profile () {
+        return $this->hasOne(Profile::class);
+    }
+
 }

@@ -3,24 +3,10 @@ import UserLayout from './Layouts/UserLayout.vue'
 import Products from './Components/Products.vue';
 import { ref, watch } from 'vue'
 import { Link } from '@inertiajs/vue3'
-import {
-    Dialog,
-    DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
-} from '@headlessui/vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/vue/20/solid';
+
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { router, useForm } from '@inertiajs/vue3';
-import { data } from 'autoprefixer';
+
 
 
 // reactive values
@@ -208,7 +194,7 @@ const props = defineProps({
                                     :value="brand.id" class="text-primary focus:ring-0 rounded-sm cursor-pointer">
                                 <label :for="`brand-${brand.id}`" class="text-gray-600 ml-3 cusror-pointer">{{
                                     brand.name
-                                    }}</label>
+                                }}</label>
                                 <div class="ml-auto text-gray-600 text-sm">{{ brand.products.length }}</div>
                             </div>
 

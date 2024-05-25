@@ -8,6 +8,7 @@ use App\Http\Resources\CartResource;
 use App\Http\Resources\WishListResource;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -34,10 +35,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = Auth::user();
+
+        // Load the profile relationship
+        if($user) {
+
+            $user->load('profile');
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
             'cart' => new CartResource(Cart::getProductAndCartItems()),
             'wishlist' => new WishListResource(Wish::getProductAndWishes()),

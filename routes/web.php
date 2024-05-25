@@ -26,8 +26,13 @@ Route::get('/contact', [UserController::class, 'contact'])->name('contact');
 
 
 // User Routes
-Route::get('/dashboard', [DashboardController::class, 'index']
-)->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::middleware('auth')->controller(DashboardController::class)->group(function () {
+    Route::get('/dashboard', 'index')->name('dashboard');
+    Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
+    
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

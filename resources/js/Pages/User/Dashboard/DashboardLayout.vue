@@ -1,6 +1,10 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
 import UserLayout from '../Layouts/UserLayout.vue';
+import { computed } from 'vue';
+
+
+const user = computed(() => usePage().props.auth.user)
 
 const logout = () => {
     router.post(route('logout'))
@@ -34,7 +38,7 @@ const logout = () => {
                     </div>
                     <div class="flex-grow">
                         <p class="text-gray-600">Hello,</p>
-                        <h4 class="text-gray-800 font-medium">John Doe</h4>
+                        <h4 class="text-gray-800 font-medium">{{ user.name }}</h4>
                     </div>
                 </div>
 
