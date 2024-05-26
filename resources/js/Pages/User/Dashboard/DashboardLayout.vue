@@ -72,9 +72,10 @@ const logout = () => {
                             class="relative hover:text-primary block capitalize transition">
                         Completed Orders
                         </Link>
-                        <a href="#" class="relative hover:text-primary block capitalize transition">
-                            Pending Orders
-                        </a>
+                        <Link :href="route('dashboard.pending.orders')"
+                            class="relative hover:text-primary block capitalize transition">
+                        Pending Orders
+                        </Link>
                         <a href="#" class="relative hover:text-primary block capitalize transition">
                             My reviews
                         </a>

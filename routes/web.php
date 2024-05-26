@@ -33,6 +33,7 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
     Route::get('/addresses', 'view_address')->name('dashboard.address');
     Route::get('/addresses', 'view_address')->name('dashboard.address');
     Route::get('/dashboard/completed/orders', 'view_completed_orders')->name('dashboard.completed.orders');
+    Route::get('/dashboard/pending/orders', 'view_pending_orders')->name('dashboard.pending.orders');
     Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
     Route::patch('/dashboard/password', 'manage_password')->name('user.password.update');
 });

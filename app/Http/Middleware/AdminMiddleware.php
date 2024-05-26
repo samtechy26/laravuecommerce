@@ -19,7 +19,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect()->route('home')->with('error', 'Access denied you are not an admin');
+        return redirect()->route('user.home')->with('error', 'Access denied you are not an admin');
         
     }
 }

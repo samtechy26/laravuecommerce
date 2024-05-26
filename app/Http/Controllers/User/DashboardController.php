@@ -27,8 +27,12 @@ class DashboardController extends Controller
     }
 
     public function view_completed_orders() {
-        $orders = Order::with('order_items.product')->where(['created_by' => request()->user()->id])->get();
+        $orders = Order::with('order_items.product')->where(['created_by' => request()->user()->id, 'status' => 'paid'])->get();
         return Inertia::render('User/Dashboard/CompletedOrders', ['orders' => $orders]);
+    }
+    public function view_pending_orders() {
+        $orders = Order::with('order_items.product')->where(['created_by' => request()->user()->id, 'status' => 'unpaid'])->get();
+        return Inertia::render('User/Dashboard/PendingOrders', ['orders' => $orders]);
     }
 
     public function manage_password (Request $request) {
