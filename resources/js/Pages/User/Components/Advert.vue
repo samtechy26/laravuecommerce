@@ -2,11 +2,16 @@
 </script>
 
 <template>
-    <!-- ads -->
-    <div class="container pb-16">
+
+    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+        <!-- ads -->
+
         <a href="#">
             <img src="images/offer.jpg" alt="ads" class="w-full">
         </a>
+
+        <!-- ./ads -->
     </div>
-    <!-- ./ads -->
+
+
 </template>

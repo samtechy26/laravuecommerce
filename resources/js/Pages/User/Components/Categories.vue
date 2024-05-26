@@ -7,8 +7,9 @@ defineProps({
 </script>
 
 <template>
-    <!-- categories -->
-    <div class="container py-16">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+        <!-- categories -->
+
         <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">shop by category</h2>
         <div class="grid grid-cols-3 gap-3">
             <div v-for="cat in categories" :key="cat.id" class="relative rounded-sm overflow-hidden group">
@@ -19,6 +20,8 @@ defineProps({
             </div>
 
         </div>
+
+        <!-- ./categories -->
     </div>
-    <!-- ./categories -->
+
 </template>

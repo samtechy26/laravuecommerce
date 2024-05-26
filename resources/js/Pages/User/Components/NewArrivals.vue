@@ -6,8 +6,10 @@ defineProps({
 </script>
 
 <template>
-    <!-- new arrival -->
-    <div class="container pb-16">
+
+    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+        <!-- new arrival -->
+
         <h2 class="text-2xl font-medium text-gray-800 uppercase mb-6">top new arrival</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div v-for="item in top_products" :key="item.id" class="bg-white shadow rounded overflow-hidden group">
@@ -29,8 +31,9 @@ defineProps({
                 </div>
                 <div class="pt-4 pb-3 px-4">
                     <a href="#">
-                        <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">{{
-                            item.title }}</h4>
+                        <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
+                            {{
+                                item.title }}</h4>
                     </a>
                     <div class="flex items-baseline mb-1 space-x-2">
                         <p class="text-xl text-primary font-semibold">${{ item.price }}</p>
@@ -51,6 +54,8 @@ defineProps({
                     to cart</a>
             </div>
         </div>
+
+        <!-- ./new arrival -->
     </div>
-    <!-- ./new arrival -->
+
 </template>
