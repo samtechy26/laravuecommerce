@@ -30,8 +30,9 @@ Route::get('/contact', [UserController::class, 'contact'])->name('contact');
 
 Route::middleware('auth')->controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
+    Route::get('/addresses', 'view_address')->name('dashboard.address');
+    Route::patch('/addresses', 'update_address')->name('dashboard.address.update');
     Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
-    
 });
 
 Route::middleware('auth')->group(function () {

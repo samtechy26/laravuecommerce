@@ -29,8 +29,6 @@ const updateProfile = () => {
                 title: page.props.flash.success
             })
 
-            dialogVisible.value = false
-            resetFormData()
         }
     })
 }

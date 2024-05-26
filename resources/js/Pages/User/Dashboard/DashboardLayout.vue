@@ -53,9 +53,10 @@ const logout = () => {
                         <a href="#" class="relative hover:text-primary block capitalize transition">
                             Profile information
                         </a>
-                        <a href="#" class="relative hover:text-primary block capitalize transition">
-                            Manage addresses
-                        </a>
+                        <Link :href="route('dashboard.address')"
+                            class="relative hover:text-primary block capitalize transition">
+                        Manage addresses
+                        </Link>
                         <a href="#" class="relative hover:text-primary block capitalize transition">
                             Change password
                         </a>
