@@ -26,6 +26,11 @@ class DashboardController extends Controller
         return Inertia::render('User/Dashboard/Address', ['address' => $userAddress]);
     }
 
+    public function view_completed_orders() {
+        $orders = Order::with('order_items.product')->where(['created_by' => request()->user()->id])->get();
+        return Inertia::render('User/Dashboard/CompletedOrders', ['orders' => $orders]);
+    }
+
     public function manage_password (Request $request) {
         $user = Auth::user();
     

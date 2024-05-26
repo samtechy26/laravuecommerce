@@ -54,6 +54,10 @@ class Product extends Model
         return $this->hasMany(CartItems::class);
     }
 
+    public function orderItems () {
+        return $this->hasMany(OrderItem::class);
+    }
+
     // filter logic for price, category and brand
 
     public function scopeFiltered(Builder $builder) {

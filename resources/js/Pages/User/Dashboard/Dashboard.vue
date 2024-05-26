@@ -63,7 +63,7 @@ const updatePassword = () => {
 <template>
     <DashboardLayout>
         <!-- info -->
-        <div class="col-span-9 ">
+        <div class="col-span-9">
             <div class="shadow rounded px-6 pt-5 pb-7">
                 <h4 class="text-lg font-medium capitalize mb-4">
                     Profile information

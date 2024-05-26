@@ -31,7 +31,8 @@ Route::get('/contact', [UserController::class, 'contact'])->name('contact');
 Route::middleware('auth')->controller(DashboardController::class)->group(function () {
     Route::get('/dashboard', 'index')->name('dashboard');
     Route::get('/addresses', 'view_address')->name('dashboard.address');
-    Route::patch('/addresses', 'update_address')->name('dashboard.address.update');
+    Route::get('/addresses', 'view_address')->name('dashboard.address');
+    Route::get('/dashboard/completed/orders', 'view_completed_orders')->name('dashboard.completed.orders');
     Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
     Route::patch('/dashboard/password', 'manage_password')->name('user.password.update');
 });
