@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\User_Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -23,6 +24,21 @@ class DashboardController extends Controller
         $userAddress = User_Address::where(['user_id' => $user->id, 'isMain' => 1])->first();
         
         return Inertia::render('User/Dashboard/Address', ['address' => $userAddress]);
+    }
+
+    public function manage_password (Request $request) {
+        $user = Auth::user();
+    
+    // Use Hash::check to compare the provided password with the stored hashed password
+    if (Hash::check($request->currentPassword, $user->password)) {
+        // Hash the new password and update it in the database
+        $user->password = Hash::make($request->newPassword);
+        $user->save(); // Use save() instead of update() for an existing model instance
+
+        return back()->with('success', 'Password updated successfully.');
+    } else {
+        return back()->with('error', 'Incorrect current password.');
+    }
     }
 
     public function update_profile (Request $request) {

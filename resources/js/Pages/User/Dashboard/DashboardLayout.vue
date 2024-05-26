@@ -50,9 +50,10 @@ const logout = () => {
                             </span>
                             Manage account
                         </a>
-                        <a href="#" class="relative hover:text-primary block capitalize transition">
-                            Profile information
-                        </a>
+                        <Link :href="route('dashboard')"
+                            class="relative hover:text-primary block capitalize transition">
+                        Profile information
+                        </Link>
                         <Link :href="route('dashboard.address')"
                             class="relative hover:text-primary block capitalize transition">
                         Manage addresses

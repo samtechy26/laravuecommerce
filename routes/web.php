@@ -33,6 +33,7 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
     Route::get('/addresses', 'view_address')->name('dashboard.address');
     Route::patch('/addresses', 'update_address')->name('dashboard.address.update');
     Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
+    Route::patch('/dashboard/password', 'manage_password')->name('user.password.update');
 });
 
 Route::middleware('auth')->group(function () {
