@@ -14,7 +14,7 @@ class Product extends Model
     use HasSlug;
 
     protected $fillable = [
-        "title","slug","description", "sku", "published","inStock","price", "weight", "created_by","updated_by","deleted_by"
+        "title","slug","description", "average_rating", "sku", "published","inStock","price", "weight", "created_by","updated_by","deleted_by"
     ];
 
     /**
@@ -56,6 +56,10 @@ class Product extends Model
 
     public function orderItems () {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function ratings () {
+        return $this->hasMany(Rating::class);
     }
 
     // filter logic for price, category and brand

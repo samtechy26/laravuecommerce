@@ -13,6 +13,7 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ProductDetailController;
 use App\Http\Controllers\User\ProductListController;
+use App\Http\Controllers\User\RatingController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\WishListController;
 use GuzzleHttp\Middleware;
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/rate', [RatingController::class, 'store'])->name('product.rate');
 
     Route::prefix('checkout')->controller(CheckoutController::class)->group(function () {
         Route::post('order', 'store')->name('checkout.store');
@@ -118,7 +120,7 @@ Route::prefix('products')->controller(ProductListController::class)->group(funct
     Route::get('/', 'index')->name('products.index');
 });
 
-Route::get('/product', [ProductDetailController::class, 'index'])->name('product.single');
+Route::get('/product/{id}', [ProductDetailController::class, 'index'])->name('product.single');
 
 
 
