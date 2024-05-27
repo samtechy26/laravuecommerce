@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class ProductDetailController extends Controller
 {
     public function index($id) {
-        $product = Product::where(['id' => $id])->with(['product_images', 'colors', 'sizes', 'ratings'])->first();
+        $product = Product::where(['id' => $id])->with(['product_images', 'colors', 'sizes', 'ratings.user'])->first();
         return Inertia::render('User/ProductDetail', ['product' =>$product]);
     }
 }

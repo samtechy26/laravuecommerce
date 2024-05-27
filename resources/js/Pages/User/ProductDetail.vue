@@ -4,7 +4,10 @@ import UserLayout from './Layouts/UserLayout.vue';
 import { ref } from 'vue';
 
 const dialogVisible = ref(false)
+const dialogVisible2 = ref(false)
+
 const rating = ref(0)
+const ratingMessage = ref('')
 
 const possibleRatings = [1, 2, 3, 4, 5]
 
@@ -56,6 +59,7 @@ const handleSubmitReview = () => {
     router.post(route('product.rate'), {
         product_id: props.product.id,
         rating: rating.value,
+        rating_message: ratingMessage.value
     }, {
         onSuccess: (page) => {
             Swal.fire({
@@ -210,10 +214,11 @@ const handleSubmitReview = () => {
                                     <img src="https://readymadeui.com/team-2.webp"
                                         class="w-12 h-12 rounded-full border-2 border-white" />
                                     <div class="ml-3">
-                                        <h4 class="text-sm font-bold text-[#333]">John Doe</h4>
+                                        <h4 class="text-sm font-bold text-[#333]">{{ product.ratings[0].user.name }}
+                                        </h4>
                                         <div class="flex space-x-1 mt-1">
                                             <svg v-for="i in possibleRatings" :key="i" class="w-4"
-                                                :class="`${i <= +product.ratings[-1]?.rating ? 'fill-yellow-500' : 'fill-gray-400'}`"
+                                                :class="`${i <= +product.ratings[0]?.rating ? 'fill-yellow-500' : 'fill-gray-400'}`"
                                                 viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
@@ -221,16 +226,84 @@ const handleSubmitReview = () => {
 
                                             <p class="text-xs !ml-2 font-semibold text-[#333]">2 mins ago</p>
                                         </div>
-                                        <p class="text-sm mt-4 text-[#333]">Lorem ipsum dolor sit amet, consectetur
-                                            adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                                        <p class="text-sm mt-4 text-[#333]">{{ product.ratings[0].rating_message }}
                                         </p>
                                     </div>
                                 </div>
 
-                                <button type="button"
+                                <button type="button" @click="dialogVisible = true"
                                     class="w-full mt-10 px-4 py-2.5 bg-transparent hover:bg-gray-50 border border-primary text-[#333] font-bold rounded">{{
                                         product.ratings.length
                                             ? 'Read all reviews' : 'Add a review' }}</button>
+
+                                <el-dialog v-model="dialogVisible" width="500" :before-close="handleClose">
+
+
+                                    <div v-if="product.ratings.length" class="flex items-center">
+                                        <div v-for="item in product.ratings" :key="item.id" class="flex items-start">
+                                            <img src="https://readymadeui.com/team-2.webp"
+                                                class="w-12 h-12 rounded-full border-2 border-white" />
+                                            <div class="ml-3">
+                                                <h4 class="text-sm font-bold text-[#333]">{{ item.user.name }}</h4>
+                                                <div class="flex space-x-1 mt-1">
+                                                    <svg v-for="i in possibleRatings" :key="i" class="w-4"
+                                                        :class="`${i <= item?.rating ? 'fill-yellow-500' : 'fill-gray-400'}`"
+                                                        viewBox="0 0 14 13" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                                                    </svg>
+
+                                                    <p class="text-xs !ml-2 font-semibold text-[#333]">2 mins ago</p>
+                                                </div>
+                                                <p class="text-sm mt-4 text-[#333]">{{ item.rating_message }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <template #footer>
+                                        <div class="dialog-footer">
+                                            <el-button @click="dialogVisible = false">Cancel</el-button>
+                                            <el-button type="primary" @click="dialogVisible2 = true">
+                                                Add a review
+                                            </el-button>
+                                        </div>
+                                    </template>
+                                </el-dialog>
+
+                                <el-dialog v-model="dialogVisible2" width="500">
+
+                                    <form class="max-w-sm mx-auto">
+                                        <label for="message"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                            review</label>
+                                        <textarea id="message" rows="4" v-model="ratingMessage"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="Leave a comment..."></textarea>
+
+                                        <div class="flex justify-between pt-10">
+                                            <p class="font-medium">Leave a star</p>
+                                            <svg v-for="i in possibleRatings" :key="i" class="w-4 h-4 me-1"
+                                                :class="{ 'text-yellow-500': i <= rating, 'text-gray-300': i > rating }"
+                                                @mouseover="hoverIndex(i)" @click="hoverIndex(i)" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                viewBox="0 0 22 20">
+                                                <path
+                                                    d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </div>
+                                    </form>
+                                    <template #footer>
+                                        <div class="dialog-footer">
+                                            <el-button @click="dialogVisible2 = false">Cancel</el-button>
+                                            <el-button type="primary" @click="handleSubmitReview">
+                                                Confirm
+                                            </el-button>
+                                        </div>
+                                    </template>
+                                </el-dialog>
+
                             </div>
                         </div>
                     </div>
