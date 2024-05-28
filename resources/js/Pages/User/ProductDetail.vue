@@ -1,11 +1,12 @@
 <script setup>
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 import UserLayout from './Layouts/UserLayout.vue';
 import { ref } from 'vue';
 import { useTimeAgo } from '@/Composables/useTimeAgo'
 
 const dialogVisible = ref(false)
 const dialogVisible2 = ref(false)
+const currentImage = ref(0)
 
 function addToCart(product) {
     router.post(route('cart.store', { product: product }), {
@@ -23,6 +24,28 @@ function addToCart(product) {
         preserveScroll: true,
         replace: true
     })
+}
+
+function buyNow(product) {
+    router.post(route('cart.store', { product: product }), {
+        onSuccess: (page) => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000, // Adding a timer to show the success message briefly
+                title: page.props.flash.success
+            }).then(() => {
+                // After the success message is shown, redirect to the cart page
+                router.visit(route('cart.view'));
+            });
+        }
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
+    });
 }
 
 // add to wishlist 
@@ -58,11 +81,11 @@ const hoverIndex = (index) => rating.value = index
 const resetHover = () => rating.value = 0
 
 const props = defineProps({
-    product: Object
+    product: Object,
+    related_products: Array
+
 })
 
-
-const currentImage = ref(null)
 
 const ratingPercentage = (rate) => {
     let count = 0
@@ -138,8 +161,8 @@ const handleSubmitReview = () => {
                         <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
 
                             <div class="px-4 py-10 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative">
-                                <img :src="`/product_images/${product.product_images[0].image}`" alt="Product"
-                                    class="w-4/5 rounded object-cover" />
+                                <img :src="`/product_images/${product.product_images[currentImage].image}`"
+                                    alt="Product" class="w-4/5 rounded object-cover" />
                                 <button type="button" @click="addToWishList(product)" class="absolute top-4 right-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" fill="#ccc"
                                         class="mr-1 hover:fill-[#333]" viewBox="0 0 64 64">
@@ -151,10 +174,10 @@ const handleSubmitReview = () => {
                             </div>
 
                             <div class="mt-6 flex flex-wrap justify-center gap-6 mx-auto">
-                                <div v-for="image in product.product_images" :key="image.id"
+                                <div v-for="image, index in product.product_images" :key="image.id"
                                     class="rounded-xl p-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
                                     <img :src="`/product_images/${image.image}`" alt="Product2"
-                                        class="w-24 cursor-pointer" />
+                                        class="w-24 cursor-pointer" @click="currentImage = index" />
                                 </div>
 
                             </div>
@@ -189,7 +212,7 @@ const handleSubmitReview = () => {
                             </div>
 
                             <div class="flex flex-wrap gap-4 mt-10">
-                                <button type="button"
+                                <button type="button" @click="buyNow(product)"
                                     class="min-w-[200px] px-4 py-3 bg-primary hover:bg-[#111] text-white text-sm font-semibold rounded">Buy
                                     now</button>
                                 <button type="button" @click="addToCart(product)"
@@ -352,6 +375,54 @@ const handleSubmitReview = () => {
                     </div>
                 </div>
             </div>
+            <!-- related products -->
+
+            <h2 v-if="related_products.length" class="text-2xl font-medium text-gray-800 uppercase mb-6">Related
+                Products</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div v-for="p in related_products" :key="p.id" class="bg-white shadow rounded overflow-hidden group">
+                    <div class="relative">
+                        <img :src="`../product_images/${p.product_images[0].image}`" alt="product 1" class="w-full">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center 
+                        justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                            <Link :href="route('product.single', { id: p.id })"
+                                class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                title="view product">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            </Link>
+                            <a @click="addToWishList(p)"
+                                class=" cursor-pointer text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                title="add to wishlist">
+                                <i class="fa-solid fa-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pt-4 pb-3 px-4">
+                        <Link :href="route('product.single', { id: product.id })">
+                        <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
+                            {{ p.title }}</h4>
+                        </Link>
+                        <div class="flex items-baseline mb-1 space-x-2">
+                            <p class="text-xl text-primary font-semibold">${{ p.price }}</p>
+
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex gap-1 text-sm ">
+                                <span v-for="item in 5" :key="item"><i class="fa-solid fa-star"
+                                        :class="`${item <= p.average_rating ? 'text-yellow-400' : 'text-gray-400'}`"></i>
+                                </span>
+
+                            </div>
+                            <div class="text-xs text-gray-500 ml-3">({{ p.ratings?.length }})</div>
+                        </div>
+                    </div>
+                    <a @click="addToCart(p)"
+                        class="block w-full py-1 text-center cursor-pointer text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">Add
+                        to cart</a>
+                </div>
+            </div>
+
+            <!-- ./ related products -->
 
         </div>
     </UserLayout>

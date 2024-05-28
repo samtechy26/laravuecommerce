@@ -26,7 +26,7 @@ defineProps({
         <Categories :categories="categories" />
         <NewArrivals :top_products="top_products" />
         <Advert />
-        <BestProducts />
+        <BestProducts :products="products" />
     </UserLayout>
 
 </template>

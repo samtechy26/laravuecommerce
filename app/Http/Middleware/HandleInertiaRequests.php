@@ -6,6 +6,8 @@ use App\Helper\Cart;
 use App\Helper\Wish;
 use App\Http\Resources\CartResource;
 use App\Http\Resources\WishListResource;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +38,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = Auth::user();
+        $categories = Category::all();
+        $brands = Brand::all();
 
         // Load the profile relationship
         if($user) {
@@ -49,6 +53,8 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
             ],
             'cart' => new CartResource(Cart::getProductAndCartItems()),
+            'gen_categories' => $categories,
+            'brands' => $brands,
             'wishlist' => new WishListResource(Wish::getProductAndWishes()),
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),

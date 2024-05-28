@@ -199,7 +199,7 @@ const props = defineProps({
                                         class="text-primary focus:ring-0 rounded-sm cursor-pointer">
                                     <label :for="`brand-${brand.id}`" class="text-gray-600 ml-3 cusror-pointer">{{
                                         brand.name
-                                    }}</label>
+                                        }}</label>
                                     <div class="ml-auto text-gray-600 text-sm">{{ brand.products.length }}</div>
                                 </div>
 
@@ -264,7 +264,7 @@ const props = defineProps({
                                         class="text-primary focus:ring-0 rounded-sm cursor-pointer" :value="cat.id">
                                     <label :for="`cat-${cat.id}`" class="text-gray-600 ml-3 cusror-pointer">{{ cat.name
                                         }}</label>
-                                    <div class="ml-auto text-gray-600 text-sm">{{ cat.products.length }}</div>
+                                    <div class="ml-auto text-gray-600 text-sm">({{ cat.products.length }})</div>
                                 </div>
 
                             </div>
@@ -279,7 +279,7 @@ const props = defineProps({
                                         class="text-primary focus:ring-0 rounded-sm cursor-pointer" :value="brand.id">
                                     <label :for="`brand-${brand.id}`" class="text-gray-600 ml-3 cusror-pointer">{{
                                         brand.name }}</label>
-                                    <div class="ml-auto text-gray-600 text-sm">{{ brand.products.length }}</div>
+                                    <div class="ml-auto text-gray-600 text-sm">({{ brand.products.length }})</div>
                                 </div>
 
                             </div>
@@ -304,7 +304,7 @@ const props = defineProps({
                         </div>
 
                         <div class="pt-4">
-                            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">size</h3>
+                            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">sizes</h3>
                             <div class="flex items-center gap-2">
                                 <div v-for="size in sizes" :key="size.id" class="size-selector">
                                     <input type="radio" v-model="selectedSizes" :value="size.id" name="size"
@@ -317,13 +317,13 @@ const props = defineProps({
                         </div>
 
                         <div class="pt-4">
-                            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Color</h3>
+                            <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Colors</h3>
                             <div class="flex items-center gap-2">
                                 <div v-for="color in colors" :key="color.id" class="color-selector">
                                     <input type="radio" v-model="selectedColors" name="color" :value="color.id"
                                         :id="color.id" class="hidden">
                                     <label :for="color.id"
-                                        class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block"
+                                        class="border border-gray-300 rounded-sm h-6 w-6  cursor-pointer shadow-sm block"
                                         :style="`background-color: ${color.name};`"></label>
                                 </div>
 

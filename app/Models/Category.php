@@ -13,7 +13,7 @@ class Category extends Model
     use HasSlug;
 
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug', 'feature_image'];
 
     public function products() {
         return $this->hasMany(Product::class);

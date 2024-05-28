@@ -107,7 +107,7 @@ class CartController extends Controller
    
         }
 
-        return redirect()->back()->with('success', 'cart added successfully');
+        return back()->with('success', 'cart added successfully');
     }
 
     public function update(Request $request, Product $product) {

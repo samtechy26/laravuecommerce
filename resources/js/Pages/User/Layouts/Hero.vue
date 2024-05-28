@@ -1,3 +1,6 @@
+<script setup>
+import { Link } from '@inertiajs/vue3';
+</script>
 <template>
     <section class="bg-white dark:bg-gray-900">
         <div class="bg-cover bg-no-repeat bg-center py-36" style="background-image: url('images/banner-bg.jpg');">
@@ -11,8 +14,8 @@
                         accusantium perspiciatis, sapiente
                         magni eos dolorum ex quos dolores odio</p>
                     <div class="mt-12">
-                        <a href="#" class="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md hover:bg-transparent hover:text-primary">Shop Now</a>
+                        <Link :href="route('products.index')" class="bg-primary border border-primary text-white px-8 py-3 font-medium 
+                    rounded-md hover:bg-transparent hover:text-primary">Shop Now</Link>
                     </div>
                 </div>
 

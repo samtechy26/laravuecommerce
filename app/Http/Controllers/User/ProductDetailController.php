@@ -11,6 +11,11 @@ class ProductDetailController extends Controller
 {
     public function index($id) {
         $product = Product::where(['id' => $id])->with(['product_images', 'colors', 'sizes', 'ratings.user'])->first();
-        return Inertia::render('User/ProductDetail', ['product' =>$product]);
+        $related_products = Product::where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id) // Exclude the product itself
+        ->with(['product_images', 'ratings'])
+        ->limit(4)
+        ->get();
+        return Inertia::render('User/ProductDetail', ['product' =>$product, 'related_products' => $related_products]);
     }
 }
