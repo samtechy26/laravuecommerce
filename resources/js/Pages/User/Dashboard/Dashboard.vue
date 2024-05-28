@@ -63,45 +63,59 @@ const updatePassword = () => {
 <template>
     <DashboardLayout>
         <!-- info -->
-        <div class="col-span-9">
+        <div class="col-span-9 space-y-4">
             <div class="shadow rounded px-6 pt-5 pb-7">
                 <h4 class="text-lg font-medium capitalize mb-4">
                     Profile information
                 </h4>
                 <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="first">First name</label>
-                            <input v-model="profileData.firstName" type="text" name="first" id="first"
-                                class="input-box">
+                    <div class="lg:grid grid-cols-2 gap-4">
+                        <div class="mb-5">
+                            <label for="base-input"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                            <input v-model="profileData.firstName" type="text" id="base-input"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
-                        <div>
-                            <label for="last">Last name</label>
-                            <input v-model="profileData.lastName" type="text" name="last" id="last" class="input-box">
+                        <div class="mb-5">
+                            <label for="base-input"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+                            <input v-model="profileData.lastName" type="text" id="base-input"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="birthday">Birthday</label>
-                            <input v-model="profileData.birthday" type="date" name="birthday" id="birthday"
-                                class="input-box">
+                    <div class="lg:grid grid-cols-2 gap-4">
+                        <div class="mb-5">
+                            <label for="base-input"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birthday</label>
+                            <input v-model="profileData.birthday" type="date" id="base-input"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
-                        <div>
-                            <label for="gender">Gender</label>
-                            <select v-model="profileData.gender" name="gender" id="gender" class="input-box">
+                        <div class="mb-5">
+                            <label for="gender"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                            <select v-model="profileData.gender" name="gender" id="gender"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
                         </div>
+
+
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="email">Email Address</label>
-                            <input v-model="profileData.email" type="email" name="email" id="email" class="input-box">
+                    <div class="lg:grid grid-cols-2 gap-4">
+                        <div class="mb-5">
+                            <label for="email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
+                                Address</label>
+                            <input v-model="profileData.email" type="email" id="email"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
-                        <div>
-                            <label for="phone">Phone number</label>
-                            <input v-model="profileData.phone" type="text" name="phone" id="phone" class="input-box">
+                        <div class="mb-5">
+                            <label for="phone"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
+                                number</label>
+                            <input v-model="profileData.phone" type="email" id="phone"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </div>
                 </div>
@@ -113,40 +127,43 @@ const updatePassword = () => {
                 </div>
             </div>
 
-            <div class="shadow rounded px-6 pt-5 pb-7">
+            <div class="shadow rounded px-6 pt-5 pb-7 ">
                 <h4 class="text-lg font-medium capitalize mb-4">
                     Update Password
                 </h4>
                 <div class="space-y-4">
-                    <div class="grid grid-cols-1 gap-4">
-                        <div>
-                            <label for="curr">Current Password</label>
-                            <input v-model="passwordData.currentPassword" type="password" name="curr" id="curr"
-                                class="input-box">
+                    <div class="lg:grid grid-cols-3 md:grid-cols-2  gap-4">
+                        <div class="mb-5">
+                            <label for="currpassword"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
+                                Password</label>
+                            <input v-model="passwordData.currentPassword" type="password" id="currpassword"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="new" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
+                                Password</label>
+                            <input v-model="passwordData.newPassword" type="password" id="new"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="confirm"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
+                                Password</label>
+                            <input v-model="passwordData.ConfirmPassword" type="confirm" id="phone"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
 
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="new">New Password</label>
-                            <input v-model="passwordData.newPassword" type="password" name="new" id="new"
-                                class="input-box">
-                        </div>
-                        <div>
-                            <label for="confirm">Confirm Password</label>
-                            <input v-model="passwordData.ConfirmPassword" type="password" name="confirm" id="confirm"
-                                class="input-box">
-                        </div>
+                    <div class="mt-4">
+                        <button type="submit" @click="updatePassword"
+                            class="py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium">save
+                            changes</button>
                     </div>
-
-
                 </div>
 
-                <div class="mt-4">
-                    <button type="submit" @click="updatePassword"
-                        class="py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium">save
-                        changes</button>
-                </div>
             </div>
         </div>
         <!-- ./info -->

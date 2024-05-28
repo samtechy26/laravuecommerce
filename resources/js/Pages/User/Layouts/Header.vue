@@ -42,6 +42,9 @@ function addToCart(product) {
     })
 }
 
+const logout = () => {
+    router.post(route('logout'))
+}
 
 </script>
 
@@ -120,26 +123,28 @@ function addToCart(product) {
                 </Link>
                 <div class="flex items-center space-x-4 lg:order-2">
 
-                    <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
+                    <a @click="dialogVisible = true"
+                        class="text-center text-gray-700 hover:text-primary transition relative">
                         <div class="text-2xl">
                             <i class="fa-regular fa-heart"></i>
                         </div>
                         <div class="text-xs leading-3">Wishlist</div>
                         <div
                             class="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                            8</div>
+                            {{ wish.data.count }}</div>
                     </a>
-                    <a href="#" class="text-center text-gray-700 hover:text-primary transition relative">
-                        <div class="text-2xl">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                        </div>
-                        <div class="text-xs leading-3">Cart</div>
-                        <div
-                            class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                            2</div>
-                    </a>
+                    <Link :href="route('cart.view')"
+                        class="text-center text-gray-700 hover:text-primary transition relative">
+                    <div class="text-2xl">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <div class="text-xs leading-3">Cart</div>
+                    <div
+                        class="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                        {{ cart.data.count }}</div>
+                    </Link>
                     <div class="flex items-center">
-                        <div v-if="auth" class="flex items-center ms-3">
+                        <div v-if="auth.user !== null" class="flex items-center ms-3">
                             <div>
                                 <button type="button"
                                     class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -154,42 +159,34 @@ function addToCart(product) {
                                 id="dropdown-user">
                                 <div class="px-4 py-3" role="none">
                                     <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                        Neil Sims
+                                        {{ auth.user.name }}
                                     </p>
                                     <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                                         role="none">
-                                        neil.sims@flowbite.com
+                                        {{ auth.user.email }}
                                     </p>
                                 </div>
                                 <ul class="py-1" role="none">
                                     <li>
-                                        <a href="#"
+                                        <Link :href="route('dashboard')"
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            role="menuitem">Dashboard</a>
+                                            role="menuitem">Dashboard</Link>
                                     </li>
+
                                     <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            role="menuitem">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            role="menuitem">Earnings</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <a @click="logout"
+                                            class=" cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             role="menuitem">Sign out</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div v-else>
-                            <a href="#"
-                                class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log
-                                in</a>
+                        <div v-else class="px-4">
+                            <Link :href="route('login')"
+                                class="text-white dark:text-white bg-primary hover:bg-white hover:text-black hover:border border-primary focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+                            Log
+                            in/Register</Link>
                         </div>
                     </div>
 

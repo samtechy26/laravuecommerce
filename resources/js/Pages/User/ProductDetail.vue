@@ -2,9 +2,50 @@
 import { router } from '@inertiajs/vue3';
 import UserLayout from './Layouts/UserLayout.vue';
 import { ref } from 'vue';
+import { useTimeAgo } from '@/Composables/useTimeAgo'
 
 const dialogVisible = ref(false)
 const dialogVisible2 = ref(false)
+
+function addToCart(product) {
+    router.post(route('cart.store', { product: product }), {
+        onSuccess: (page) => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                title: page.props.flash.success
+            })
+        }
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
+    })
+}
+
+// add to wishlist 
+
+function addToWishList(product) {
+    router.post(route('wishlist.store', { product: product }), {
+        onSuccess: (page) => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                title: page.props.flash.success
+            })
+        }
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
+    })
+}
+
+const { timeAgo } = useTimeAgo()
 
 const rating = ref(0)
 const ratingMessage = ref('')
@@ -99,7 +140,7 @@ const handleSubmitReview = () => {
                             <div class="px-4 py-10 rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] relative">
                                 <img :src="`/product_images/${product.product_images[0].image}`" alt="Product"
                                     class="w-4/5 rounded object-cover" />
-                                <button type="button" class="absolute top-4 right-4">
+                                <button type="button" @click="addToWishList(product)" class="absolute top-4 right-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" fill="#ccc"
                                         class="mr-1 hover:fill-[#333]" viewBox="0 0 64 64">
                                         <path
@@ -151,7 +192,7 @@ const handleSubmitReview = () => {
                                 <button type="button"
                                     class="min-w-[200px] px-4 py-3 bg-primary hover:bg-[#111] text-white text-sm font-semibold rounded">Buy
                                     now</button>
-                                <button type="button"
+                                <button type="button" @click="addToCart(product)"
                                     class="min-w-[200px] px-4 py-2.5 border border-primary bg-transparent hover:bg-gray-50 text-[#333] text-sm font-semibold rounded">Add
                                     to cart</button>
                             </div>
@@ -224,7 +265,8 @@ const handleSubmitReview = () => {
                                                     d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                                             </svg>
 
-                                            <p class="text-xs !ml-2 font-semibold text-[#333]">2 mins ago</p>
+                                            <p class="text-xs !ml-2 font-semibold text-[#333]">{{
+                                                timeAgo(product.ratings[0].updated_at) }}</p>
                                         </div>
                                         <p class="text-sm mt-4 text-[#333]">{{ product.ratings[0].rating_message }}
                                         </p>
@@ -254,7 +296,8 @@ const handleSubmitReview = () => {
                                                             d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                                                     </svg>
 
-                                                    <p class="text-xs !ml-2 font-semibold text-[#333]">2 mins ago</p>
+                                                    <p class="text-xs !ml-2 font-semibold text-[#333]">{{
+                                                        timeAgo(item.updated_at) }}</p>
                                                 </div>
                                                 <p class="text-sm mt-4 text-[#333]">{{ item.rating_message }}
                                                 </p>

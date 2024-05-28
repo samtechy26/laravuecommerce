@@ -44,51 +44,57 @@ const updateAddress = () => {
                 Address information
             </h4>
             <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="address1" class="text-gray-600">Address 1</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.address1" type="text" name="address1" id="country"
-                            class="input-box">
+                <div class="lg:grid grid-cols-2 gap-4">
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address 1</label>
+                        <input type="text" v-model="addressForm.address1" id="base-input"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
-                    <div>
-                        <label for="address2" class="text-gray-600">Address 2</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.address2" type="text" name="address2" id="state" class="input-box"
-                            required>
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address 2</label>
+                        <input type="text" v-model="addressForm.address2" id="base-input"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+
+                </div>
+                <div class="lg:grid grid-cols-2 gap-4">
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+                        <input type="text" id="base-input" v-model="addressForm.country_code"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                        <input type="text" id="base-input" v-model="addressForm.state"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="country" class="text-gray-600">Country</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.country_code" type="text" name="country" id="country"
-                            class="input-box">
+                <div class="lg:grid grid-cols-2 gap-4">
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+                        <input type="text" id="base-input" v-model="addressForm.city"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
-                    <div>
-                        <label for="state" class="text-gray-600">State</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.state" type="text" name="state" id="state" class="input-box"
-                            required>
+                    <div class="mb-5">
+                        <label for="base-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zip
+                            Code</label>
+                        <input type="text" id="base-input" v-model="addressForm.zipcode"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
+
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="city" class="text-gray-600">City</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.city" type="text" name="city" id="city" class="input-box" required>
-                    </div>
-                    <div>
-                        <label for="zip" class="text-gray-600">Zip Code</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.zipcode" type="text" name="zip" id="zip" class="input-box" required>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="type" class="text-gray-600">Address Type (Home/Office)</label>
-                        <span class="text-primary">*</span>
-                        <input v-model="addressForm.type" type="text" name="type" id="type" class="input-box" required>
+                <div class="lg:grid grid-cols-2 gap-4">
+                    <div class="mb-5">
+                        <label for="base-input"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Type (Home
+                            | Office)</label>
+                        <input v-model="addressForm.type" type="text" id="base-input"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                 </div>
             </div>
