@@ -1,5 +1,7 @@
 <script setup>
 
+import { Link } from '@inertiajs/vue3';
+
 defineProps({
     categories: Array
 })
@@ -14,9 +16,10 @@ defineProps({
         <div class="grid grid-cols-3 gap-3">
             <div v-for="cat in categories" :key="cat.id" class="relative rounded-sm overflow-hidden group">
                 <img :src="`../category_images/${cat.feature_image}`" :alt="`category ${cat.id}`" class="w-full">
-                <a href="#"
-                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition">{{
-                        cat.name }}</a>
+                <Link :href="`/products?categories[]=${cat.id}`"
+                    class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition">
+                {{
+                    cat.name }}</Link>
             </div>
 
         </div>

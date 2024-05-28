@@ -31,20 +31,14 @@ function buyNow(product) {
         onSuccess: (page) => {
             Swal.fire({
                 toast: true,
-                icon: 'success',
+                icon: page.props.flash.success ? 'success' : 'error',
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 1000, // Adding a timer to show the success message briefly
-                title: page.props.flash.success
-            }).then(() => {
-                // After the success message is shown, redirect to the cart page
-                router.visit(route('cart.view'));
+                timer: 1000,
+                title: page.props.flash.success ? page.props.flash.success : page.props.flash.error
             });
+
         }
-    }, {
-        preserveState: true,
-        preserveScroll: true,
-        replace: true
     });
 }
 

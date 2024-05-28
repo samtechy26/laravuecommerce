@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\ProductDetailController;
 use App\Http\Controllers\User\ProductListController;
@@ -24,6 +25,7 @@ use Inertia\Inertia;
 
 Route::get('/', [UserController::class, 'index'])->name('user.home');
 Route::get('/contact', [UserController::class, 'contact'])->name('contact');
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
 // User Routes

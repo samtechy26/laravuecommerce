@@ -44,18 +44,18 @@ const updatePassword = () => {
         onSuccess: (page) => {
             Swal.fire({
                 toast: true,
-                icon: `${page.props.flash.success ? 'success' : 'error'}`,
+                icon: page.props.flash.success ? 'success' : 'error',
                 position: 'top-end',
                 showConfirmButton: false,
-                title: `${page.props.flash.success ? page.props.flash.success : page.props.flash.error}`
-            }),
-                passwordData.currentPassword = null,
-                passwordData.newPassword = null,
-                passwordData.ConfirmPassword = null
+                timer: 1000,
+                title: page.props.flash.success ? page.props.flash.success : page.props.flash.error
+            });
 
-
+            passwordData.currentPassword = null;
+            passwordData.newPassword = null;
+            passwordData.ConfirmPassword = null;
         }
-    })
+    });
 }
 
 </script>
