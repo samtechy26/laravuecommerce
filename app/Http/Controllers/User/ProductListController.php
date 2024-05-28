@@ -15,7 +15,7 @@ use Inertia\Inertia;
 class ProductListController extends Controller
 {
     public function index() {
-        $products = Product::with('brand', 'category', 'product_images');
+        $products = Product::with(['brand', 'category', 'product_images', 'ratings']);
         $filteredProducts = $products->filtered()->paginate(9)->withQueryString();
 
         $categories = Category::with('products')->get();

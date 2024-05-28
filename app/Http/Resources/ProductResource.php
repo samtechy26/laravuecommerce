@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'quantity' => $this->quantity,
             'status' => $this->status,
+            'average_rating' => $this->average_rating,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'product_images' => $this->whenLoaded('product_images', function () {
@@ -32,7 +33,9 @@ class ProductResource extends JsonResource
             'brand_id' => $this->brand_id,
             'brand' => new BrandResource($this->whenLoaded('brand')),
             'sizes' => new SizeResource($this->whenLoaded('size')),
-            'colors' => new ColorResource($this->whenLoaded('color'))
+            'colors' => new ColorResource($this->whenLoaded('color')),
+            'ratings' => $this->whenLoaded('ratings', function () {
+                return RatingResource::collection($this->ratings);})
         ];
     }
 }
