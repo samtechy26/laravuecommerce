@@ -28,6 +28,9 @@ class ProductResource extends JsonResource
             'product_images' => $this->whenLoaded('product_images', function () {
                 return ProductImageResource::collection($this->product_images);
             }),
+            'orderItems' => $this->whenLoaded('OrderItems', function () {
+                return OrderItemResource::collection($this->orderItems);
+            }),
             'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'brand_id' => $this->brand_id,

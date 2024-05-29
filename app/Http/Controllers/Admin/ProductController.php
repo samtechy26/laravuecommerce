@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public function index(Request $request) {
-        $products = Product::with('category', 'brand', 'product_images', 'colors', 'sizes')->get();
+        $products = Product::with('category', 'brand', 'product_images', 'colors', 'sizes', 'orderItems')->get();
         $brands = Brand::all();
         $categories = Category::all();
         $colors = Color::all();

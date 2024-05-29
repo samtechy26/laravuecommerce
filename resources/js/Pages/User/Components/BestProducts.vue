@@ -81,7 +81,8 @@ function addToWishList(product) {
                         </div>
                         <div class="flex items-center">
                             <div class="flex gap-1 text-sm ">
-                                <span v-for="item in 5" :key="item"><i class="fa-solid fa-star"
+                                <span v-for="item in 5" :key="item">
+                                    <i class="fa-solid fa-star"
                                         :class="`${item <= product.average_rating ? 'text-yellow-400' : 'text-gray-400'}`"></i>
                                 </span>
 
