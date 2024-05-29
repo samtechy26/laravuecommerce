@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\ProductColor;
@@ -18,14 +19,15 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public function index(Request $request) {
-        $products = Product::with('category', 'brand', 'product_images', 'colors', 'sizes', 'orderItems')->get();
+        $products = Product::with(['brand', 'category', 'sizes', 'colors', 'product_images', 'ratings', 'orderItems']);
+        $filteredProducts = $products->filtered()->paginate(9)->withQueryString();
         $brands = Brand::all();
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
         return Inertia::render('Admin/Products/Index', 
         [
-            'products'=>$products,
+            'products'=> ProductResource::collection(($filteredProducts)),
             'brands'=>$brands,
             'categories'=>$categories,
             'colors' => $colors,

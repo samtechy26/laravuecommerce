@@ -28,15 +28,19 @@ class ProductResource extends JsonResource
             'product_images' => $this->whenLoaded('product_images', function () {
                 return ProductImageResource::collection($this->product_images);
             }),
-            'orderItems' => $this->whenLoaded('OrderItems', function () {
+            'orderItems' => $this->whenLoaded('orderItems', function () {
                 return OrderItemResource::collection($this->orderItems);
             }),
             'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'brand_id' => $this->brand_id,
             'brand' => new BrandResource($this->whenLoaded('brand')),
-            'sizes' => new SizeResource($this->whenLoaded('size')),
-            'colors' => new ColorResource($this->whenLoaded('color')),
+            'sizes' => $this->whenLoaded('sizes', function () {
+                return SizeResource::collection($this->sizes);
+            }),
+            'colors' => $this->whenLoaded('colors', function () {
+                return SizeResource::collection($this->colors);
+            }),
             'ratings' => $this->whenLoaded('ratings', function () {
                 return RatingResource::collection($this->ratings);})
         ];

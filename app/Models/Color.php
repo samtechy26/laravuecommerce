@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Color extends Model
 {
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['id', 'name', 'slug'];
     use HasFactory;
 
     public function products() {
