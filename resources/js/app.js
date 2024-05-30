@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
+import VueApexCharts from "vue3-apexcharts";
 
 library.add(fas, far, fab);
 dom.watch();
@@ -35,6 +36,8 @@ createInertiaApp({
         app.use(ZiggyVue);
         app.use(ElementPlus);
         app.use(VueSweetalert2);
+        app.use(VueApexCharts);
+        app.component("apexchart", VueApexCharts);
         window.Swal = app.config.globalProperties.$swal;
         app.mount(el);
     },
