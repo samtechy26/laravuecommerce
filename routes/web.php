@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\AdminController;
@@ -114,6 +115,10 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('admin.categories.store');
     Route::patch('/categories/update/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('/categories/destroy/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+    //orders route
+    Route::get('/orders/completed', [OrderController::class, 'completed'])->name('admin.orders.completed');
+    Route::get('/orders/pending', [OrderController::class, 'pending'])->name('admin.orders.pending');
 
 });
 

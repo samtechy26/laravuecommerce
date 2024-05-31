@@ -14,4 +14,8 @@ class Order extends Model
     function order_items() {
         return $this->hasMany(OrderItem::class);
     }
+
+   function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
