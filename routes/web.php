@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
@@ -119,6 +120,11 @@ Route::middleware(['auth', 'admin'])->prefix(('admin'))->group(function() {
     //orders route
     Route::get('/orders/completed', [OrderController::class, 'completed'])->name('admin.orders.completed');
     Route::get('/orders/pending', [OrderController::class, 'pending'])->name('admin.orders.pending');
+
+    // manage users routes
+    Route::get('/users/list', [ManageUsersController::class, 'index'])->name('admin.users.list');
+    Route::patch('/user/update', [ManageUsersController::class, 'update'])->name('admin.user.update');
+    Route::patch('/user/deactivate', [ManageUsersController::class, 'deactivate'])->name('admin.user.deactivate');
 
 });
 
