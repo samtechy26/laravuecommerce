@@ -1,6 +1,43 @@
 <script setup>
 import AdminLayout from '../Components/AdminLayout.vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 
+
+
+const dialogVisible = ref(false)
+
+const handleClose = (() => {
+    dialogVisible.value = false
+})
+
+const orderId = ref(null)
+const total = ref(null)
+const orderItems = ref([])
+
+
+const openViewModal = (order) => {
+    dialogVisible.value = true
+    orderId.value = order.id
+    orderItems.value = order.order_items
+    total.value = order.total_price
+}
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+    }).format(date)
+}
+
+defineProps({
+    orders: Array
+})
 
 </script>
 
@@ -13,6 +50,9 @@ import AdminLayout from '../Components/AdminLayout.vue';
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Order ID
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Customer
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Created at
@@ -29,6 +69,10 @@ import AdminLayout from '../Components/AdminLayout.vue';
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Order#{{ order.id }}
+                            </th>
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ order.user.name }}
                             </th>
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

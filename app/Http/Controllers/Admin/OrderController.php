@@ -15,6 +15,7 @@ class OrderController extends Controller
     }
 
     public function pending () {
-        return Inertia::render('Admin/Orders/Pending');
+        $orders = Order::with(['order_items.product', 'user'])->where([ 'status' => 'unpaid'])->get();
+        return Inertia::render('Admin/Orders/Pending', ['orders' => $orders]);
     }
 }
