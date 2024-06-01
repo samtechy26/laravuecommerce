@@ -1,5 +1,5 @@
 # LV.SHOP Full-Stack Application
-![screencapture-localhost-8000-2024-06-01-18_43_24](https://github.com/samtechy26/laravuecommerce/assets/101216609/bf6c59a0-e0a7-422f-a6a9-a1c9fa734cd7)
+![screencapture-localhost-8000-2024-06-01-18_52_50](https://github.com/samtechy26/laravuecommerce/assets/101216609/a99e181b-4b3c-4816-a5e3-6b963939b3c7)
 
 ## Table of Contents
 - [Introduction](#introduction)
