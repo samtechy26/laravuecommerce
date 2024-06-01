@@ -41,6 +41,7 @@ Route::middleware('auth')->controller(DashboardController::class)->group(functio
     Route::get('/dashboard/pending/orders', 'view_pending_orders')->name('dashboard.pending.orders');
     Route::post('/dashboard/profile', 'update_profile')->name('user.profile.update');
     Route::patch('/dashboard/password', 'manage_password')->name('user.password.update');
+    Route::patch('/dashboard/profile/image/update', 'uploadProfileImage')->name('user.profile.image.update');
 });
 
 Route::middleware('auth')->group(function () {

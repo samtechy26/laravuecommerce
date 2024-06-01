@@ -52,6 +52,7 @@ const logout = () => {
 </script>
 
 <template>
+
     <el-dialog v-model="dialogVisible" title="Wishlist" width="500" :before-close="handleClose">
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

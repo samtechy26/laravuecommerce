@@ -1,10 +1,63 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
 import UserLayout from '../Layouts/UserLayout.vue';
-import { computed } from 'vue';
+import { computed, reactive, ref } from 'vue';
+import { UploadFilled } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue';
 
 
 const user = computed(() => usePage().props.auth.user)
+
+
+
+const profileImages = ref([])
+const dialogVisible = ref(false)
+
+const handleFileChange = (file) => {
+    profileImages.value.push(file)
+}
+
+const handlePictureCardPreview = (file) => {
+    dialogImageUrl.value = file.url
+    dialogVisible.value = true
+}
+
+const handleClose = () => {
+    ElMessageBox.confirm('Are you sure to close this dialog?')
+        .then(() => {
+            done()
+        })
+        .catch(() => {
+            // catch error
+        })
+}
+
+const handleProfileImage = () => {
+    const data = new FormData()
+
+    for (const image of profileImages.value) {
+        data.append('profile_images[]', image.raw)
+    }
+
+    data.append('_method', 'PATCH')
+
+    router.post(route('user.profile.image.update'), data, {
+        onSuccess: page => {
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                title: page.props.flash.success
+            })
+
+            dialogVisible.value = false
+        }
+    })
+
+}
+
+
 
 const logout = () => {
     router.post(route('logout'))
@@ -26,6 +79,24 @@ const logout = () => {
                 <p class="text-gray-600 font-medium">Profile</p>
             </div>
             <!-- ./breadcrumb -->
+
+
+            <el-dialog v-model="dialogVisible" title="Tips" width="500" :before-close="handleClose">
+                <el-upload v-model:file-list="profileImages" list-type="picture-card"
+                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-change="handleFileChange">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </el-upload>
+                <template #footer>
+                    <div class="dialog-footer">
+                        <el-button @click="dialogVisible = false">Cancel</el-button>
+                        <el-button type="primary" @click="handleProfileImage">
+                            Confirm
+                        </el-button>
+                    </div>
+                </template>
+            </el-dialog>
 
             <!-- wrapper -->
             <div class="container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start">
@@ -141,16 +212,31 @@ const logout = () => {
                 </div>
                 <div class="col-span-1 bg-white px-4 pb-6 pt-6 shadow rounded overflow-hiddenb hidden md:block">
                     <div class="divide-y divide-gray-200 space-y-5">
-                        <div class="px-4 py-3 shadow flex items-center gap-4">
-                            <div class="flex-shrink-0">
-                                <img src="/images/avatar.png" alt="profile"
-                                    class="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover">
+
+
+                        <div
+                            class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex justify-end px-4 pt-4">
+                                <button id="dropdownButton" @click="dialogVisible = true"
+                                    data-dropdown-toggle="dropdown"
+                                    class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                                    type="button">
+                                    <span class="sr-only">Upload profile Image</span>
+                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor" viewBox="0 0 16 3">
+                                        <path
+                                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="flex-grow">
-                                <p class="text-gray-600">Hello,</p>
-                                <h4 class="text-gray-800 font-medium">{{ user.name }}</h4>
+                            <div class="flex flex-col items-center pb-10">
+                                <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+                                    :src="`/profile_images/${user.profile?.profile_image}`" alt="Bonnie image" />
+                                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ user.name }}</h5>
+
                             </div>
                         </div>
+
 
                         <div class="mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
                             <div class="space-y-1 pl-8">

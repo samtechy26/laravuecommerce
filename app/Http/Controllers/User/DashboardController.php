@@ -10,6 +10,7 @@ use App\Models\User_Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -84,6 +85,24 @@ class DashboardController extends Controller
 
         return back()->with('success', 'address updated successfully');
         
+    }
+
+    public function uploadProfileImage (Request $request) {
+        $profile = Profile::where('user_id', request()->user()->id)->first();
+        if ($request->hasFile('profile_images')) {
+            $profileImages = $request->file('profile_images');
+
+            foreach ($profileImages as $image) {
+                // Generate a unique name for the image using timestamp and random string
+                $uniqueName = time(). '-' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            }
+
+            $image->move('profile_images', $uniqueName);
+
+            $profile->profile_image = $uniqueName;
+
+            $profile->update();
+        }
     }
 
 }

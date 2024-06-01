@@ -1,7 +1,9 @@
 <script setup>
 import { router, usePage } from '@inertiajs/vue3';
 import DashboardLayout from './DashboardLayout.vue'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import { UploadFilled } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue';
 
 
 defineProps({
@@ -22,7 +24,6 @@ const passwordData = reactive({
     newPassword: null,
     ConfirmPassword: null
 })
-
 
 const updateProfile = () => {
     router.post(route('user.profile.update'), profileData, {
@@ -62,6 +63,9 @@ const updatePassword = () => {
 
 <template>
     <DashboardLayout>
+        <template>
+
+        </template>
         <!-- info -->
         <div class="col-span-9 space-y-4">
             <div class="shadow rounded px-6 pt-5 pb-7">
@@ -72,13 +76,15 @@ const updatePassword = () => {
                     <div class="lg:grid grid-cols-2 gap-4">
                         <div class="mb-5">
                             <label for="base-input"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
+                                name</label>
                             <input v-model="profileData.firstName" type="text" id="base-input"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                         <div class="mb-5">
                             <label for="base-input"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
+                                name</label>
                             <input v-model="profileData.lastName" type="text" id="base-input"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>

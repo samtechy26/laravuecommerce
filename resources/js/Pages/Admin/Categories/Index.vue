@@ -42,6 +42,8 @@ const handlePictureCardPreview = (file) => {
     dialogVisible.value = true
 }
 
+
+
 // open add modal
 const openAddModal = () => {
     isAddingCategory.value = true
