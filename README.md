@@ -127,9 +127,8 @@ Visit `http://localhost:8000` in your browser to see the application.
 - Checkout
 - User Profile
 - Admin Dashboard
-
-![Home Page](![screencapture-localhost-8000-2024-06-01-18_43_24](https://github.com/samtechy26/laravuecommerce/assets/101216609/bf6c59a0-e0a7-422f-a6a9-a1c9fa734cd7))
-![Product Page](![screencapture-localhost-8000-products-2024-06-01-18_44_45](https://github.com/samtechy26/laravuecommerce/assets/101216609/16015e85-1a54-4024-a282-526c3b2cc800)
+![screencapture-localhost-8000-2024-06-01-18_43_24](https://github.com/samtechy26/laravuecommerce/assets/101216609/bf6c59a0-e0a7-422f-a6a9-a1c9fa734cd7))
+![screencapture-localhost-8000-products-2024-06-01-18_44_45](https://github.com/samtechy26/laravuecommerce/assets/101216609/16015e85-1a54-4024-a282-526c3b2cc800)
 )
 
 ## Contributing
